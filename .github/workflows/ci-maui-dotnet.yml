@@ -67,7 +67,7 @@ jobs:
         run: dotnet workload install maui --ignore-failed-sources
 
       - name: Restore Dependencies
-        run: dotnet restore PristonToolsEU.sln
+        run: dotnet restore PristonToolsEU.sln -r win10-x64
 
       - name: Build MAUI Windows
         run: dotnet publish PristonToolsEU.sln -c Release -f net8.0-windows10.0.19041.0 -r win10-x64 --no-restore
@@ -125,7 +125,7 @@ jobs:
         run: dotnet workload install maui --ignore-failed-sources
 
       - name: Restore Dependencies
-        run: dotnet restore PristonToolsEU.sln
+        run: dotnet restore PristonToolsEU.sln -r maccatalyst-arm64
 
       - name: Build MAUI MacCatalyst
         run: dotnet publish PristonToolsEU.sln -c Release -f net8.0-maccatalyst -r maccatalyst-x64 --no-restore -p:BuildIpa=True
