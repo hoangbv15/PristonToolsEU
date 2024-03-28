@@ -67,7 +67,7 @@ jobs:
         run: dotnet workload install maui --ignore-failed-sources
 
       - name: Restore Dependencies
-        run: dotnet restore PristonToolsEU.sln -r win-x64
+        run: dotnet restore PristonToolsEU.sln -r win-x64 /p:PublishReadyToRun=true
 
       - name: Build MAUI Windows
         run: dotnet publish PristonToolsEU.sln -c Release -f net8.0-windows10.0.19041.0 -r win-x64 --no-restore
@@ -125,10 +125,10 @@ jobs:
         run: dotnet workload install maui --ignore-failed-sources
 
       - name: Restore Dependencies
-        run: dotnet restore PristonToolsEU.sln -r maccatalyst-x64
+        run: dotnet restore PristonToolsEU.sln -r maccatalyst-x64;maccatalyst-arm64
 
       - name: Build MAUI MacCatalyst
-        run: dotnet publish PristonToolsEU.sln -c Release -f net8.0-maccatalyst -r maccatalyst-x64 --no-restore -p:BuildIpa=True
+        run: dotnet publish PristonToolsEU.sln -c Release -f net8.0-maccatalyst -r maccatalyst-x64;maccatalyst-arm64 --no-restore -p:BuildIpa=True
 
       - name: Upload MacCatalyst Artifact
         uses: actions/upload-artifact@v4
