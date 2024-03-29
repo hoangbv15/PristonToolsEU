@@ -20,7 +20,7 @@ public static class MauiProgram
 
 		builder.Services.AddSingleton<IRestClient, RestClient>();
 		builder.Services.AddSingleton<IServerTime, ServerTime>();
-		builder.Services.AddSingleton<IBossTimePropsReader, BossTimePropsReader>();
+		builder.Services.AddSingleton<IBossReader, BossReader>();
 		builder.Services.AddSingleton<IBossTimer, BossTimer>();
 		builder.Services.AddSingleton<MainPageViewModel>();
 		builder.Services.AddSingleton<MainPage>();

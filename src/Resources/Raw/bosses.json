@@ -4,6 +4,11 @@
       "name": "Valento",
       "referenceHour": 1,
       "intervalHours": 2
+    },
+    {
+      "name": "Primal Golem",
+      "referenceHour": 4,
+      "intervalHours": 6
     }
   ]
 }

@@ -3,34 +3,64 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PristonToolsEU.MainPage">
 
+    <!-- <ScrollView> -->
+    <!--     <VerticalStackLayout x:Name="BossTimerLayout" -->
+    <!--         Padding="30,0" -->
+    <!--         Spacing="25"> -->
+    <!--         <Image -->
+    <!--             Source="dotnet_bot.png" -->
+    <!--             HeightRequest="185" -->
+    <!--             Aspect="AspectFit" -->
+    <!--             SemanticProperties.Description="dot net bot in a race car number eight" /> -->
+    <!-- -->
+    <!--         <Label -->
+    <!--             Text="Valento" -->
+    <!--             Style="{StaticResource Headline}" -->
+    <!--             SemanticProperties.HeadingLevel="Level1" /> -->
+    <!-- -->
+    <!--         <Label -->
+    <!--             Text="{Binding Valento, StringFormat='{0:hh\:mm}'}" -->
+    <!--             Style="{StaticResource SubHeadline}" -->
+    <!--             SemanticProperties.HeadingLevel="Level2" -->
+    <!--             SemanticProperties.Description="Welcome to dot net Multi platform App U I" /> -->
+    <!--          -->
+    <!--         <Button -->
+    <!--             x:Name="CounterBtn" -->
+    <!--             Text="Click me"  -->
+    <!--             SemanticProperties.Hint="Counts the number of times you click" -->
+    <!--             Clicked="OnCounterClicked" -->
+    <!--             HorizontalOptions="Fill" /> -->
+    <!--     </VerticalStackLayout> -->
+    <!-- </ScrollView> -->
     <ScrollView>
-        <VerticalStackLayout
+        <VerticalStackLayout x:Name="BossTimerLayout"
             Padding="30,0"
             Spacing="25">
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a race car number eight" />
-
-            <Label
-                Text="Valento"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
-
-            <Label
-                Text="{Binding Valento, StringFormat='{0:hh\:mm}'}"
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
-            
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me" 
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Fill" />
+            <ListView ItemsSource="{Binding Bosses}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <!-- <TextCell Text="{Binding .}"/> -->
+                        <ViewCell>
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                       Text="{Binding Name}"
+                                       FontAttributes="Bold" />
+                                <Label Grid.Column="1"
+                                    Text="{Binding BossTimes[Name]}"
+                                    FontAttributes="Bold" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

@@ -12,20 +12,20 @@ namespace PristonToolsEU.BossTiming.Dto;
 //     ]
 // }
 
-public class BossTimeProps
+public class Boss
 {
     [JsonPropertyName("name")] 
-    public string Name;
+    public string Name { get; set; }
     
     [JsonPropertyName("referenceHour")]
-    public int ReferenceHour;
+    public int ReferenceHour { get; set; }
     
     [JsonPropertyName("intervalHours")]
-    public int IntervalHours;
+    public int IntervalHours { get; set; }
 }
 
-public class BossTimePropsArray
+public class BossArray
 {
     [JsonPropertyName("bosses")]
-    public List<BossTimeProps> Bosses;
+    public List<Boss> Bosses { get; set; }
 }

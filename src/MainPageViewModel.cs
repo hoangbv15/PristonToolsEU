@@ -1,6 +1,8 @@
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using PristonToolsEU.BossTiming;
+using PristonToolsEU.BossTiming.Dto;
 using PristonToolsEU.ServerTiming;
 
 namespace PristonToolsEU;
@@ -10,33 +12,40 @@ public class MainPageViewModel : INotifyPropertyChanged
     private readonly IBossTimer _bossTimer;
     private readonly Timer _timer;
 
-    private TimeSpan _valento;
+    public ObservableCollection<Boss> Bosses { get; private set; } = new();
 
-    public TimeSpan Valento
-    {
-        get => _valento;
-        set
-        {
-            _valento = value;
-            OnPropertyChanged();
-        }
-    }
+    public Dictionary<string, TimeSpan> BossTimes { get; } = new();
 
     public MainPageViewModel(IBossTimer bossTimer)
     {
         _bossTimer = bossTimer;
-        _timer = new Timer(new TimerCallback(UpdateLabels),
+        _timer = new Timer(Update,
                            null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+        InitialiseBossTimer();
     }
-    
+
+    private async void InitialiseBossTimer()
+    {
+        await _bossTimer.Initialise();
+        Bosses = new ObservableCollection<Boss>(_bossTimer.Bosses);
+        OnPropertyChanged(nameof(Bosses));
+        Update(null);
+    }
+
     ~MainPageViewModel() 
     {
         _timer.Dispose();
     }
 
-    private void UpdateLabels(object? state)
+    private void Update(object? state)
     {
-        Valento = _bossTimer.GetTimeTillBoss("Valento");
+        foreach (var boss in Bosses)
+        {
+            BossTimes[boss.Name] = _bossTimer.GetTimeTillBoss(boss.Name);
+        }
+
+        OnPropertyChanged(nameof(Bosses));
+        OnPropertyChanged(nameof(BossTimes));
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

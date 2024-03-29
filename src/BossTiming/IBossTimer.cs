@@ -1,8 +1,12 @@
+using PristonToolsEU.BossTiming.Dto;
+
 namespace PristonToolsEU.BossTiming;
 
 public interface IBossTimer
 {
-    IEnumerable<string> GetBossNames();
+    Task Initialise();
+    
+    IEnumerable<Boss> Bosses { get; }
 
     TimeSpan GetTimeTillBoss(string bossName);
 }

@@ -2,7 +2,7 @@ using PristonToolsEU.BossTiming.Dto;
 
 namespace PristonToolsEU.BossTiming;
 
-public interface IBossTimePropsReader
+public interface IBossReader
 {
-    public Task<BossTimeProps> Read();
+    public Task<BossArray> Read();
 }

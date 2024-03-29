@@ -16,7 +16,7 @@ public class Tests
         using (StreamReader r = new StreamReader("bossProps.json"))
         {
             var json = r.ReadToEnd();
-            var boss = JsonSerializer.Deserialize<BossTimeProps>(json);
+            var boss = JsonSerializer.Deserialize<Boss>(json);
             Assert.NotNull(boss);
             Assert.Equals(boss.Name, "Valento");
             Assert.Equals(boss.ReferenceHour, 1);
