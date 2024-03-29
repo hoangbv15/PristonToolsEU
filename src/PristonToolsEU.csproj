@@ -14,7 +14,7 @@
 		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
 		<RuntimeIdentifiers Condition="$([MSBuild]::IsOSPlatform('windows'))">win-x64</RuntimeIdentifiers>
-		<RuntimeIdentifiers Condition="$([MSBuild]::IsOSPlatform('macatalyst'))">maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers>
+		<RuntimeIdentifiers Condition="$([MSBuild]::IsOSPlatform('macatalyst'))">maccatalyst-x64</RuntimeIdentifiers>
 
 		<OutputType Condition="'$(TargetFramework)' != 'net8.0'">Exe</OutputType>
 		<RootNamespace>PristonToolsEU</RootNamespace>
