@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using PristonToolsEU.Time;
+using PristonToolsEU.BossTiming;
+using PristonToolsEU.ServerTiming;
 
 namespace PristonToolsEU;
 
@@ -35,7 +36,7 @@ public class MainPageViewModel : INotifyPropertyChanged
 
     private void UpdateLabels(object? state)
     {
-        Valento = _bossTimer.Valento;
+        Valento = _bossTimer.GetTimeTillBoss("Valento");
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

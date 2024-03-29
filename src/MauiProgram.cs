@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using PristonToolsEU.Time;
+using PristonToolsEU.BossTiming;
+using PristonToolsEU.ServerTiming;
 using PristonToolsEU.Networking;
 
 namespace PristonToolsEU;
@@ -19,6 +20,7 @@ public static class MauiProgram
 
 		builder.Services.AddSingleton<IRestClient, RestClient>();
 		builder.Services.AddSingleton<IServerTime, ServerTime>();
+		builder.Services.AddSingleton<IBossTimePropsReader, BossTimePropsReader>();
 		builder.Services.AddSingleton<IBossTimer, BossTimer>();
 		builder.Services.AddSingleton<MainPageViewModel>();
 		builder.Services.AddSingleton<MainPage>();

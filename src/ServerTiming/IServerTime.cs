@@ -1,4 +1,4 @@
-namespace PristonToolsEU.Time;
+namespace PristonToolsEU.ServerTiming;
 
 public interface IServerTime
 {

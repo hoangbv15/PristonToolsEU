@@ -47,7 +47,7 @@ jobs:
   #       uses: actions/upload-artifact@v4
   #       with:
   #         name: mauibeach-android-ci-build
-  #         path: bin/Release/net8.0-android/*Signed.a*
+  #         path: src/bin/Release/net8.0-android/*Signed.a*
 
 # MAUI Windows Build
   build-windows:
@@ -76,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mauibeach-windows-ci-build
-          path: bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.msix
+          path: src/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.msix
 
 # MAUI iOS Build
   # build-ios:
@@ -105,7 +105,7 @@ jobs:
   #       uses: actions/upload-artifact@v4
   #       with:
   #         name: mauibeach-ios-ci-build
-  #         path: bin/Release/net8.0-ios/iossimulator-x64/**/*.app
+  #         path: src/bin/Release/net8.0-ios/iossimulator-x64/**/*.app
 
 # MAUI MacCatalyst Build
   build-mac:
@@ -134,4 +134,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: macos-ci-build
-          path: bin/Release/net8.0-maccatalyst/maccatalyst-x64/publish/*.pkg
+          path: src/bin/Release/net8.0-maccatalyst/maccatalyst-x64/publish/*.pkg

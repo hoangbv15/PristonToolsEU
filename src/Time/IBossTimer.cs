@@ -2,6 +2,7 @@ namespace PristonToolsEU.Time;
 
 public interface IBossTimer
 {
+    
     TimeSpan Valento { get; }
     TimeSpan Kelvezu { get; }
     TimeSpan Mokova { get; }

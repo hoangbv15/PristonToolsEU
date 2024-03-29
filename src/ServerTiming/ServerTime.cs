@@ -1,9 +1,9 @@
 using System.Timers;
 using PristonToolsEU.Networking;
-using PristonToolsEU.Time.Dto;
+using PristonToolsEU.ServerTiming.Dto;
 using Timer = System.Timers.Timer;
 
-namespace PristonToolsEU.Time;
+namespace PristonToolsEU.ServerTiming;
 
 public class ServerTime : IServerTime, IDisposable
 {

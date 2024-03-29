@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace PristonToolsEU.Time.Dto;
+namespace PristonToolsEU.ServerTiming.Dto;
 
 public class PteuTime
 {
