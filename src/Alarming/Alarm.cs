@@ -6,7 +6,7 @@ namespace PristonToolsEU.Alarming;
 public class Alarm: IAlarm
 {
     private readonly IBossTimer _bossTimer;
-    private readonly int[] _milestones = new[] { 1, 2, 3, 5, 10, 15, 100 }; 
+    private readonly int[] _milestones = { 1, 2, 3, 5, 10, 15, 30, 60 }; // in minutes
 
     private readonly Timer _timer;
     private IDictionary<IBoss, bool> _alarms = new Dictionary<IBoss, bool>();
@@ -15,6 +15,13 @@ public class Alarm: IAlarm
     {
         _bossTimer = bossTimer;
         _timer = new Timer(o => Update(o), null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+        
+        // Prepare the alarms so we don't recalculate this every second
+        // Convert minutes to seconds
+        for (int i = 0; i < _milestones.Length; i++)
+        {
+            _milestones[i] *= 60;
+        }
     }
 
     ~Alarm()
@@ -40,9 +47,9 @@ public class Alarm: IAlarm
             foreach (var milestone in _milestones)
             {
                 var timeTillBoss = _bossTimer.GetTimeTillBoss(boss);
-                if ((int)timeTillBoss.TotalSeconds == milestone * 60) // convert minutes to seconds
+                if ((int)timeTillBoss.TotalSeconds == milestone)
                 {
-                    toBeAnnounced.Add(Tuple.Create<IBoss, int>(boss, milestone));
+                    toBeAnnounced.Add(Tuple.Create(boss, milestone));
                 }
             }
         }
