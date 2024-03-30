@@ -14,7 +14,6 @@ public class Alarm: IAlarm
     public Alarm(IBossTimer bossTimer)
     {
         _bossTimer = bossTimer;
-        _timer = new Timer(o => Update(o), null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
         
         // Prepare the alarms so we don't recalculate this every second
         // Convert minutes to seconds
@@ -22,6 +21,8 @@ public class Alarm: IAlarm
         {
             _milestones[i] *= 60;
         }
+        
+        _timer = new Timer(o => Update(o), null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
     }
 
     ~Alarm()
