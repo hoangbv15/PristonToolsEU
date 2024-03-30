@@ -1,4 +1,5 @@
 using System.Timers;
+using PristonToolsEU.Logging;
 using PristonToolsEU.Networking;
 using PristonToolsEU.ServerTiming.Dto;
 using Timer = System.Timers.Timer;
@@ -35,8 +36,9 @@ public class ServerTime : IServerTime, IDisposable
         Sync();
     }
 
-    private async void Sync()
+    public async Task Sync()
     {
+        Log.Info("Begin syncing server time");
         var serverTime = await _restClient.Get<PteuTime>(PteuTimeUrl);
         if (serverTime.Babel == null)
         {
@@ -44,6 +46,8 @@ public class ServerTime : IServerTime, IDisposable
         }
         _serverTimeOffset = DateTime.UtcNow - DateTimeOffset.FromUnixTimeSeconds(serverTime.Babel.ServerGameUnixTime).DateTime;
         _bossTimeMinute = serverTime.Babel.BossTimeSecond; 
+        Log.Debug("Got response from server \n offset: {0} \n bossTimeMinute: {1}", 
+            _serverTimeOffset, _bossTimeMinute);
     }
 
     public void Dispose()

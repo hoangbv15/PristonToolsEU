@@ -5,29 +5,28 @@ namespace PristonToolsEU.BossTiming;
 
 public class BossTimer: IBossTimer
 {
-    
     private readonly IServerTime _serverTime;
-    private readonly IBossReader _propsReader;
-    private readonly IDictionary<string, Boss> _bossProps = new Dictionary<string, Boss>();
+    private readonly IBossReader _bossReader;
     private readonly IList<Boss> _bosses = new List<Boss>();
 
-    public BossTimer(IServerTime serverTime, IBossReader propsReader)
+    public BossTimer(IServerTime serverTime, IBossReader bossReader)
     {
         _serverTime = serverTime;
-        _propsReader = propsReader;
+        _bossReader = bossReader;
     }
 
     public async Task Initialise()
     {
-        var props = await _propsReader.Read();
+        var props = await _bossReader.Read();
         foreach (var boss in props.Bosses)
         {
-            _bossProps[boss.Name] = boss;
             _bosses.Add(boss);
         }
     }
 
-    private TimeSpan GetTimeUntilBoss(Boss boss)
+    public IEnumerable<IBoss> Bosses => _bosses;
+
+    public TimeSpan GetTimeTillBoss(IBoss boss)
     {
         var nextBossHour = DateTime.Today.AddHours(boss.ReferenceHour).AddMinutes(_serverTime.BossTimeMinute);
         
@@ -38,12 +37,5 @@ public class BossTimer: IBossTimer
 
         var result = nextBossHour - _serverTime.Now;
         return result;
-    }
-
-    public IEnumerable<Boss> Bosses => _bosses;
-
-    public TimeSpan GetTimeTillBoss(string bossName)
-    {
-        return GetTimeUntilBoss(_bossProps[bossName]);
     }
 }

@@ -6,7 +6,7 @@ public interface IBossTimer
 {
     Task Initialise();
     
-    IEnumerable<Boss> Bosses { get; }
+    IEnumerable<IBoss> Bosses { get; }
 
-    TimeSpan GetTimeTillBoss(string bossName);
+    TimeSpan GetTimeTillBoss(IBoss boss);
 }

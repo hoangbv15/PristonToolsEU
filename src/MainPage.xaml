@@ -36,7 +36,10 @@
         <VerticalStackLayout x:Name="BossTimerLayout"
             Padding="30,0"
             Spacing="25">
-            <ListView ItemsSource="{Binding Bosses}">
+            <ListView ItemsSource="{Binding Bosses}"
+                      IsPullToRefreshEnabled="true"
+                      RefreshCommand="{Binding RefreshBosses}"
+                      IsRefreshing="{Binding IsRefreshingBosses}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <!-- <TextCell Text="{Binding .}"/> -->
@@ -47,15 +50,33 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="300" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Label
-                                       Text="{Binding Name}"
-                                       FontAttributes="Bold" />
-                                <Label Grid.Column="1"
-                                    Text="{Binding BossTimes[Name]}"
-                                    FontAttributes="Bold" />
+                                <Label Grid.Row="0" Grid.Column="0"
+                                       Text="{Binding Boss.Name}"
+                                       FontAttributes="Bold" 
+                                       HorizontalOptions="Center"/>
+                                <Label Grid.Row="0" Grid.Column="1"
+                                    Text="{Binding TimeTillBoss, StringFormat='{0:hh\:mm}'}"
+                                    FontAttributes="Italic"
+                                    HorizontalOptions="End"/>
+                                <CheckBox Grid.Row="0" Grid.Column="2" 
+                                          IsChecked="{Binding AlarmEnabled, Mode=TwoWay}"
+                                          HorizontalOptions="Center"/>
+                                <!-- <Label Grid.Row="1" Grid.Column="2" Text="Alarm" HorizontalOptions="End"> -->
+                                <!--     <Label.Triggers> -->
+                                <!--         <DataTrigger TargetType="Label" -->
+                                <!--                      Binding="{Binding AlarmEnabled}" -->
+                                <!--                      Value="true"> -->
+                                <!--             <Setter Property="FontAttributes" -->
+                                <!--                     Value="Italic, Bold" /> -->
+                                <!--             <Setter Property="FontSize" -->
+                                <!--                     Value="18" /> -->
+                                <!--         </DataTrigger> -->
+                                <!--     </Label.Triggers> -->
+                                <!-- </Label> -->
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

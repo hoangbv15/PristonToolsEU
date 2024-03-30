@@ -1,8 +1,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using PristonToolsEU.Alarming;
 using PristonToolsEU.BossTiming;
-using PristonToolsEU.BossTiming.Dto;
 using PristonToolsEU.ServerTiming;
 
 namespace PristonToolsEU;
@@ -10,26 +11,44 @@ namespace PristonToolsEU;
 public class MainPageViewModel : INotifyPropertyChanged
 {
     private readonly IBossTimer _bossTimer;
-    private readonly Timer _timer;
+    private readonly IServerTime _serverTime;
+    private readonly IAlarm _alarm;
+    private readonly PeriodicTimer _timer;
 
-    public ObservableCollection<Boss> Bosses { get; private set; } = new();
-
-    public Dictionary<string, TimeSpan> BossTimes { get; } = new();
-
-    public MainPageViewModel(IBossTimer bossTimer)
+    public ObservableCollection<BossTimeViewModel> Bosses { get; private set; } = new();
+    
+    public ICommand RefreshBosses { get; } 
+    public bool IsRefreshingBosses { get; set; }
+    private async Task ExecuteRefreshBosses()
+    {
+        await _serverTime.Sync();
+        IsRefreshingBosses = false;
+    }
+    
+    public MainPageViewModel(IBossTimer bossTimer, IServerTime serverTime, IAlarm alarm)
     {
         _bossTimer = bossTimer;
-        _timer = new Timer(Update,
-                           null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+        _serverTime = serverTime;
+        _alarm = alarm;
+
+        RefreshBosses = new Command(async () => await ExecuteRefreshBosses());
+        // _timer = new Timer(Update, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+        _timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+        
         InitialiseBossTimer();
     }
 
     private async void InitialiseBossTimer()
     {
         await _bossTimer.Initialise();
-        Bosses = new ObservableCollection<Boss>(_bossTimer.Bosses);
+        var bossTimes = new List<BossTimeViewModel>();
+        foreach (var boss in _bossTimer.Bosses)
+        {
+            bossTimes.Add(BossTimeViewModel.Create(boss, _bossTimer.GetTimeTillBoss(boss), _alarm));
+        }
+        Bosses = new ObservableCollection<BossTimeViewModel>(bossTimes);
         OnPropertyChanged(nameof(Bosses));
-        Update(null);
+        StartUpdating();
     }
 
     ~MainPageViewModel() 
@@ -37,15 +56,15 @@ public class MainPageViewModel : INotifyPropertyChanged
         _timer.Dispose();
     }
 
-    private void Update(object? state)
+    private async Task StartUpdating()
     {
-        foreach (var boss in Bosses)
+        while (await _timer.WaitForNextTickAsync())
         {
-            BossTimes[boss.Name] = _bossTimer.GetTimeTillBoss(boss.Name);
+            foreach (var boss in Bosses)
+            {
+                boss.TimeTillBoss = _bossTimer.GetTimeTillBoss(boss.Boss);
+            }
         }
-
-        OnPropertyChanged(nameof(Bosses));
-        OnPropertyChanged(nameof(BossTimes));
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

@@ -12,7 +12,7 @@ namespace PristonToolsEU.BossTiming.Dto;
 //     ]
 // }
 
-public class Boss
+public class Boss: IBoss
 {
     [JsonPropertyName("name")] 
     public string Name { get; set; }

@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
+using PristonToolsEU.Logging;
 
 namespace PristonToolsEU.Networking;
 
@@ -18,10 +19,12 @@ public class RestClient: IRestClient
     
     public async Task<T> Get<T>(string url) where T : new()
     {
+        Log.Info("Beginning sending rest request to {0}", url);
         await using Stream stream =
             await _httpClient.GetStreamAsync(url);
         var deserialised =
             await JsonSerializer.DeserializeAsync<T>(stream);
+        Log.Debug("Got rest response \n{0}", deserialised);
         return deserialised ?? new T();
     }
 }
