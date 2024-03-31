@@ -6,8 +6,58 @@
       "intervalHours": 2
     },
     {
+      "name": "Kelvezu",
+      "referenceHour": 0,
+      "intervalHours": 3
+    },
+    {
+      "name": "Mokova",
+      "referenceHour": 2,
+      "intervalHours": 3
+    },
+    {
+      "name": "Devil Shy",
+      "referenceHour": 0,
+      "intervalHours": 4
+    },
+    {
+      "name": "Tulla",
+      "referenceHour": 1,
+      "intervalHours": 4
+    },
+    {
+      "name": "Draxos",
+      "referenceHour": 3,
+      "intervalHours": 4
+    },
+    {
+      "name": "Yagditha",
+      "referenceHour": 1,
+      "intervalHours": 6
+    },
+    {
+      "name": "Ignis",
+      "referenceHour": 2,
+      "intervalHours": 6
+    },
+    {
       "name": "Primal Golem",
       "referenceHour": 4,
+      "intervalHours": 6
+    },
+    {
+      "name": "Skillmaster",
+      "referenceHour": 0,
+      "intervalHours": 3
+    },
+    {
+      "name": "Greedy",
+      "referenceHour": 0,
+      "intervalHours": 6
+    },
+    {
+      "name": "Aragonian",
+      "referenceHour": 0,
       "intervalHours": 6
     }
   ]

@@ -2,81 +2,67 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PristonToolsEU.MainPage">
-
-    <!-- <ScrollView> -->
-    <!--     <VerticalStackLayout x:Name="BossTimerLayout" -->
-    <!--         Padding="30,0" -->
-    <!--         Spacing="25"> -->
-    <!--         <Image -->
-    <!--             Source="dotnet_bot.png" -->
-    <!--             HeightRequest="185" -->
-    <!--             Aspect="AspectFit" -->
-    <!--             SemanticProperties.Description="dot net bot in a race car number eight" /> -->
-    <!-- -->
-    <!--         <Label -->
-    <!--             Text="Valento" -->
-    <!--             Style="{StaticResource Headline}" -->
-    <!--             SemanticProperties.HeadingLevel="Level1" /> -->
-    <!-- -->
-    <!--         <Label -->
-    <!--             Text="{Binding Valento, StringFormat='{0:hh\:mm}'}" -->
-    <!--             Style="{StaticResource SubHeadline}" -->
-    <!--             SemanticProperties.HeadingLevel="Level2" -->
-    <!--             SemanticProperties.Description="Welcome to dot net Multi platform App U I" /> -->
-    <!--          -->
-    <!--         <Button -->
-    <!--             x:Name="CounterBtn" -->
-    <!--             Text="Click me"  -->
-    <!--             SemanticProperties.Hint="Counts the number of times you click" -->
-    <!--             Clicked="OnCounterClicked" -->
-    <!--             HorizontalOptions="Fill" /> -->
-    <!--     </VerticalStackLayout> -->
-    <!-- </ScrollView> -->
-    <ScrollView>
-        <VerticalStackLayout x:Name="BossTimerLayout"
-            Padding="30,0"
-            Spacing="25">
+    <ScrollView x:Name="rootView">
+        <VerticalStackLayout
+            Padding="30,30"
+            Spacing="30">
+            <Grid RowDefinitions="Auto"
+                  ColumnDefinitions="0.5*,0.5*"
+                  ColumnSpacing="30">
+                <Button Grid.Column="0" 
+                        Text="Set Alarm" 
+                        Command="{Binding SetAlarm}"/>
+                <Button Grid.Column="1"
+                        Text="Sort by time"
+                        Command="{Binding SortByTime}"/>
+            </Grid>
             <ListView ItemsSource="{Binding Bosses}"
                       IsPullToRefreshEnabled="true"
                       RefreshCommand="{Binding RefreshBosses}"
                       IsRefreshing="{Binding IsRefreshingBosses}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <!-- <TextCell Text="{Binding .}"/> -->
                         <ViewCell>
-                            <Grid Padding="10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100" />
-                                    <ColumnDefinition Width="300" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                            <Grid RowDefinitions="Auto,Auto"
+                                  ColumnDefinitions="200,100,Auto">
                                 <Label Grid.Row="0" Grid.Column="0"
                                        Text="{Binding Boss.Name}"
-                                       FontAttributes="Bold" 
-                                       HorizontalOptions="Center"/>
+                                       Style="{StaticResource SubHeadline}"
+                                       LineBreakMode="TailTruncation"
+                                       HorizontalTextAlignment="Start"
+                                       HorizontalOptions="Fill"
+                                       VerticalOptions="Center"
+                                       FontAttributes="Bold"/>
                                 <Label Grid.Row="0" Grid.Column="1"
-                                    Text="{Binding TimeTillBoss, StringFormat='{0:hh\:mm}'}"
-                                    FontAttributes="Italic"
-                                    HorizontalOptions="End"/>
-                                <CheckBox Grid.Row="0" Grid.Column="2" 
-                                          IsChecked="{Binding AlarmEnabled, Mode=TwoWay}"
-                                          HorizontalOptions="Center"/>
-                                <!-- <Label Grid.Row="1" Grid.Column="2" Text="Alarm" HorizontalOptions="End"> -->
-                                <!--     <Label.Triggers> -->
-                                <!--         <DataTrigger TargetType="Label" -->
-                                <!--                      Binding="{Binding AlarmEnabled}" -->
-                                <!--                      Value="true"> -->
-                                <!--             <Setter Property="FontAttributes" -->
-                                <!--                     Value="Italic, Bold" /> -->
-                                <!--             <Setter Property="FontSize" -->
-                                <!--                     Value="18" /> -->
-                                <!--         </DataTrigger> -->
-                                <!--     </Label.Triggers> -->
-                                <!-- </Label> -->
+                                       Text="{Binding TimeTillBoss, StringFormat=\{0:h\\:mm\\:ss\}}"
+                                       FontAttributes="Italic"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Start"/>
+                                <StackLayout Grid.Row="0" Grid.Column="2"
+                                             VerticalOptions="Center"
+                                             HorizontalOptions="Fill"
+                                             Orientation="Horizontal"
+                                             IsVisible="{Binding IsSetAlarm}">
+                                    <CheckBox IsChecked="{Binding AlarmEnabled, Mode=TwoWay}"
+                                              VerticalOptions="Center"/>
+                                    <Label VerticalOptions="Center">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding AlarmEnabled}"
+                                                         Value="True">
+                                                <Setter Property="Text"
+                                                        Value="On" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding AlarmEnabled}"
+                                                         Value="False">
+                                                <Setter Property="Text"
+                                                        Value="Off" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </StackLayout>
+
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
@@ -84,4 +70,5 @@
             </ListView>
         </VerticalStackLayout>
     </ScrollView>
+    
 </ContentPage>

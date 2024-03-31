@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using PristonToolsEU.Alarming;
 using PristonToolsEU.BossTiming;
+using PristonToolsEU.Logging;
 using PristonToolsEU.ServerTiming;
 
 namespace PristonToolsEU;
@@ -18,6 +19,8 @@ public class MainPageViewModel : INotifyPropertyChanged
     public ObservableCollection<BossTimeViewModel> Bosses { get; private set; } = new();
     
     public ICommand RefreshBosses { get; } 
+    public ICommand SetAlarm { get; }
+    public ICommand SortByTime { get; }
     public bool IsRefreshingBosses { get; set; }
     private async Task ExecuteRefreshBosses()
     {
@@ -32,10 +35,26 @@ public class MainPageViewModel : INotifyPropertyChanged
         _alarm = alarm;
 
         RefreshBosses = new Command(async () => await ExecuteRefreshBosses());
-        // _timer = new Timer(Update, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+        SortByTime = new Command(OnSortByTime);
+        SetAlarm = new Command(OnSetAlarm);
         _timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
         
         InitialiseBossTimer();
+    }
+
+    private void OnSetAlarm()
+    {
+        Log.Debug("OnSetAlarm clicked");
+        foreach (var boss in Bosses)
+        {
+            boss.IsSetAlarm = !boss.IsSetAlarm;
+        }
+    }
+
+    private void OnSortByTime()
+    {
+        Log.Debug("OnSortByTime clicked");
+        Bosses.Sort();
     }
 
     private async void InitialiseBossTimer()

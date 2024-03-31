@@ -8,7 +8,7 @@
     Title="PristonToolsEU">
 
     <ShellContent
-        Title="Home"
+        Title="Boss Times"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

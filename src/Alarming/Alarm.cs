@@ -9,7 +9,7 @@ public class Alarm: IAlarm
     private readonly int[] _milestones = { 1, 2, 3, 5, 10, 15, 30, 60 }; // in minutes
 
     private readonly Timer _timer;
-    private IDictionary<IBoss, bool> _alarms = new Dictionary<IBoss, bool>();
+    private HashSet<IBoss> _alarms = new();
 
     public Alarm(IBossTimer bossTimer)
     {
@@ -34,23 +34,14 @@ public class Alarm: IAlarm
     {
         var toBeAnnounced = new List<Tuple<IBoss, int>>();
         
-        foreach (var alarm in _alarms)
+        foreach (var boss in _alarms)
         {
-            var boss = alarm.Key;
-            var isSet = alarm.Value;
-
-            if (!isSet)
-            {
-                continue;
-            }
-
-            
             foreach (var milestone in _milestones)
             {
                 var timeTillBoss = _bossTimer.GetTimeTillBoss(boss);
                 if ((int)timeTillBoss.TotalSeconds == milestone)
                 {
-                    toBeAnnounced.Add(Tuple.Create(boss, milestone));
+                    toBeAnnounced.Add(Tuple.Create(boss, milestone / 60));
                 }
             }
         }
@@ -69,7 +60,14 @@ public class Alarm: IAlarm
 
     public void SetAlarm(IBoss boss, bool isSet)
     {
-        _alarms[boss] = isSet;
+        if (isSet)
+        {
+            _alarms.Add(boss);
+        }
+        else
+        {
+            _alarms.Remove(boss);
+        }
         Log.Info("Alarm for {0} is set to {1}", boss.Name, isSet);
     }
 }
