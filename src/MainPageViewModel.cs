@@ -45,10 +45,7 @@ public class MainPageViewModel : INotifyPropertyChanged
     private void OnSetAlarm()
     {
         Log.Debug("OnSetAlarm clicked");
-        foreach (var boss in Bosses)
-        {
-            boss.IsSetAlarm = !boss.IsSetAlarm;
-        }
+
     }
 
     private void OnSortByTime()
@@ -63,11 +60,18 @@ public class MainPageViewModel : INotifyPropertyChanged
         var bossTimes = new List<BossTimeViewModel>();
         foreach (var boss in _bossTimer.Bosses)
         {
-            bossTimes.Add(BossTimeViewModel.Create(boss, _bossTimer.GetTimeTillBoss(boss), _alarm));
+            var bossTimeViewModel = BossTimeViewModel.Create(boss, _bossTimer.GetTimeTillBoss(boss), _alarm);
+            bossTimes.Add(bossTimeViewModel);
+            bossTimeViewModel.OnFavouriteChanged += OnFavouriteChanged;
         }
         Bosses = new ObservableCollection<BossTimeViewModel>(bossTimes);
         OnPropertyChanged(nameof(Bosses));
         StartUpdating();
+    }
+
+    private void OnFavouriteChanged()
+    {
+        Bosses.SortByFavourite();
     }
 
     ~MainPageViewModel() 

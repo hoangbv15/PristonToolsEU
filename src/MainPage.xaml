@@ -6,16 +6,18 @@
         <VerticalStackLayout
             Padding="30,30"
             Spacing="30">
-            <Grid RowDefinitions="Auto"
-                  ColumnDefinitions="0.5*,0.5*"
-                  ColumnSpacing="30">
-                <Button Grid.Column="0"
-                        Text="Sort by time"
-                        Command="{Binding SortByTime}"/>
-                <Button Grid.Column="1" 
-                        Text="Set Audio Alarm" 
-                        Command="{Binding SetAlarm}"/>
-            </Grid>
+            <Button Text="Sort by time"
+                    Command="{Binding SortByTime}"/>
+            <!-- <Grid RowDefinitions="Auto" -->
+            <!--       ColumnDefinitions="0.5*,0.5*" -->
+            <!--       ColumnSpacing="30"> -->
+            <!--     <Button Grid.Column="0" -->
+            <!--             Text="Sort by time" -->
+            <!--             Command="{Binding SortByTime}"/> -->
+            <!--     <Button Grid.Column="1"  -->
+            <!--             Text="Set Audio Alarm"  -->
+            <!--             Command="{Binding SetAlarm}"/> -->
+            <!-- </Grid> -->
             <ListView ItemsSource="{Binding Bosses}"
                       IsPullToRefreshEnabled="true"
                       RefreshCommand="{Binding RefreshBosses}"
@@ -24,8 +26,26 @@
                     <DataTemplate>
                         <ViewCell>
                             <Grid RowDefinitions="Auto,Auto"
-                                  ColumnDefinitions="200,100,Auto">
-                                <Label Grid.Row="0" Grid.Column="0"
+                                  ColumnDefinitions="50,200,100,Auto">
+                                <ImageButton Command="{Binding ToggleFavourite}"
+                                             MaximumHeightRequest="24"
+                                             MaximumWidthRequest="24">
+                                    <ImageButton.Triggers>
+                                        <DataTrigger TargetType="ImageButton"
+                                                     Binding="{Binding IsFavourite}"
+                                                     Value="True">
+                                            <Setter Property="Source"
+                                                    Value="star_on.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="ImageButton"
+                                                     Binding="{Binding IsFavourite}"
+                                                     Value="False">
+                                            <Setter Property="Source"
+                                                    Value="star_off.png"/>
+                                        </DataTrigger>
+                                    </ImageButton.Triggers>
+                                </ImageButton>
+                                <Label Grid.Row="0" Grid.Column="1"
                                        Text="{Binding Boss.Name}"
                                        Style="{StaticResource SubHeadline}"
                                        LineBreakMode="TailTruncation"
@@ -33,16 +53,15 @@
                                        HorizontalOptions="Fill"
                                        VerticalOptions="Center"
                                        FontAttributes="Bold"/>
-                                <Label Grid.Row="0" Grid.Column="1"
+                                <Label Grid.Row="0" Grid.Column="2"
                                        Text="{Binding TimeTillBoss, StringFormat=\{0:h\\:mm\\:ss\}}"
                                        FontAttributes="Italic"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Start"/>
-                                <StackLayout Grid.Row="0" Grid.Column="2"
+                                <StackLayout Grid.Row="0" Grid.Column="3"
                                              VerticalOptions="Center"
                                              HorizontalOptions="Fill"
-                                             Orientation="Horizontal"
-                                             IsVisible="{Binding IsSetAlarm}">
+                                             Orientation="Horizontal">
                                     <CheckBox IsChecked="{Binding AlarmEnabled, Mode=TwoWay}"
                                               VerticalOptions="Center"/>
                                     <Label VerticalOptions="Center">
@@ -51,13 +70,15 @@
                                                          Binding="{Binding AlarmEnabled}"
                                                          Value="True">
                                                 <Setter Property="Text"
-                                                        Value="On" />
+                                                        Value="Alarm On" />
                                             </DataTrigger>
                                             <DataTrigger TargetType="Label"
                                                          Binding="{Binding AlarmEnabled}"
                                                          Value="False">
                                                 <Setter Property="Text"
-                                                        Value="Off" />
+                                                        Value="Alarm Off" />
+                                                <Setter Property="TextColor"
+                                                        Value="Gray" />
                                             </DataTrigger>
                                         </Label.Triggers>
                                     </Label>

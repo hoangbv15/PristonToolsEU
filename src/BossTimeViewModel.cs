@@ -1,3 +1,4 @@
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PristonToolsEU.Alarming;
 using PristonToolsEU.BossTiming;
@@ -7,6 +8,8 @@ namespace PristonToolsEU;
 
 public class BossTimeViewModel: ObservableObject, IComparable
 {
+    private static int CurrentNumOfFavourites = 0;
+    
     private readonly IAlarm _alarm;
     public IBoss Boss { get; }
 
@@ -31,10 +34,29 @@ public class BossTimeViewModel: ObservableObject, IComparable
         }
     }
 
-    public bool IsSetAlarm
+    public int Favourite { get; private set; }
+
+    public event Action OnFavouriteChanged;
+    public bool IsFavourite => Favourite > 0;
+
+    public ICommand ToggleFavourite { get; }
+
+    private void OnToggleFavourite()
     {
-        get => _isSetAlarm;
-        set => SetProperty(ref _isSetAlarm, value);
+        if (!IsFavourite)
+        {
+            CurrentNumOfFavourites++;
+            Favourite = CurrentNumOfFavourites;
+        }
+        else
+        {
+            CurrentNumOfFavourites--;
+            Favourite = 0;
+        }
+
+        OnFavouriteChanged();
+        OnPropertyChanged(nameof(IsFavourite));
+        Log.Debug("Favourite for {0} is set to {1}", Boss.Name, Favourite);
     }
 
     public BossTimeViewModel(IBoss boss, TimeSpan timeTillBoss, IAlarm alarm)
@@ -42,9 +64,10 @@ public class BossTimeViewModel: ObservableObject, IComparable
         _alarm = alarm;
         Boss = boss;
         TimeTillBoss = timeTillBoss;
-        AlarmEnabled = true; // Enable alarm for all bosses by default
+        AlarmEnabled = false; // Disable alarm for all bosses by default
+        ToggleFavourite = new Command(OnToggleFavourite);
     }
-    
+
     public static BossTimeViewModel Create(IBoss boss, TimeSpan timeTillBoss, IAlarm alarm)
     {
         return new BossTimeViewModel(boss, timeTillBoss, alarm);
@@ -55,6 +78,10 @@ public class BossTimeViewModel: ObservableObject, IComparable
         var b = o as BossTimeViewModel;
         if (b == null)
             return -1;
+        if (b.Favourite != Favourite)
+        {
+            return b.Favourite - Favourite;
+        }
         return (int)(TimeTillBoss - b.TimeTillBoss).TotalSeconds;
     }
 }
