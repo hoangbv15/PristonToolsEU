@@ -51,7 +51,8 @@ public class MainPageViewModel : INotifyPropertyChanged
     private void OnSortByTime()
     {
         Log.Debug("OnSortByTime clicked");
-        Bosses.Sort();
+        Bosses = Bosses.Sort();
+        OnPropertyChanged(nameof(Bosses));
     }
 
     private async void InitialiseBossTimer()
@@ -71,7 +72,8 @@ public class MainPageViewModel : INotifyPropertyChanged
 
     private void OnFavouriteChanged()
     {
-        Bosses.SortByFavourite();
+        Bosses = Bosses.SortByFavourite();
+        OnPropertyChanged(nameof(Bosses));
     }
 
     ~MainPageViewModel() 

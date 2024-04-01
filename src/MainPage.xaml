@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:PristonToolsEU"
+             x:DataType="local:MainPageViewModel"
              x:Class="PristonToolsEU.MainPage">
     <ScrollView x:Name="rootView">
         <VerticalStackLayout
@@ -23,14 +25,18 @@
                       RefreshCommand="{Binding RefreshBosses}"
                       IsRefreshing="{Binding IsRefreshingBosses}">
                 <ListView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="local:BossTimeViewModel">
                         <ViewCell>
                             <Grid RowDefinitions="Auto,Auto"
                                   ColumnDefinitions="50,200,100,Auto">
                                 <ImageButton Command="{Binding ToggleFavourite}"
                                              Source="star_off.png"
-                                             MaximumHeightRequest="24"
-                                             MaximumWidthRequest="24">
+                                             HeightRequest="20"
+                                             WidthRequest="20"
+                                             MaximumHeightRequest="20"
+                                             MaximumWidthRequest="20"
+                                             Padding="5"
+                                             Background="Transparent">
                                     <ImageButton.Triggers>
                                         <DataTrigger TargetType="ImageButton"
                                                      Binding="{Binding IsFavourite}"
