@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -12,21 +13,21 @@ namespace PristonToolsEU
 {
     public class FastObservableCollection<T>: ObservableCollection<T> 
     {
-        public FastObservableCollection(): base() { }
+        public FastObservableCollection()
+        { }
         public FastObservableCollection(List<T> list): base(list)
-        {
-        }
+        { }
 
         public void Rearrange(T[] sorted)
         {
             for (int i = 0; i < sorted.Length; i++)
             {
-                var index1 = Items.IndexOf(sorted[i]);
-                var temp = Items[index1];
-                Items[index1] = Items[i];
-                Items[i] = temp;
+                var oldIndex = Items.IndexOf(sorted[i]);
+                (Items[oldIndex], Items[i]) = (Items[i], Items[oldIndex]);
             }
-            this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+
+            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
     
     }
