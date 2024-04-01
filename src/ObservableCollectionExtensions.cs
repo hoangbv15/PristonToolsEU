@@ -4,34 +4,39 @@ namespace PristonToolsEU;
 
 public static class ObservableCollectionExtensions
 {
-    public static void Sort<T>(this ObservableCollection<T> collection, CancellationToken token) where T : IComparable
+    public static void Sort<T>(this FastObservableCollection<T> collection, CancellationToken token, SynchronizationContext sctx) where T : IComparable
     {
         var sorted = collection.OrderBy(x => x).ToArray();
-        MoveItemsInline(collection, sorted, token);
+        MoveItemsInline(collection, sorted, token, sctx);
     }
 
-    public static void SortByFavourite(this ObservableCollection<BossTimeViewModel> collection, CancellationToken token)
+    public static void SortByFavourite(this FastObservableCollection<BossTimeViewModel> collection, CancellationToken token, SynchronizationContext sctx)
     {
         // Minus sign here is so that the favourites will end up at the top of the list
         var sorted = collection.OrderByDescending(x => x.Favourite).ToArray();
-        MoveItemsInline(collection, sorted, token);
+        MoveItemsInline(collection, sorted, token, sctx);
     }
 
-    public static ObservableCollection<T> MakeObservableCollectionCopy<T>(
-        ObservableCollection<T> collection, T[] sorted)
-    {
-        return new ObservableCollection<T>(sorted);
-    }
+    //public static FastObservableCollection<T> MakeObservableCollectionCopy<T>(
+    //    FastObservableCollection<T> collection, T[] sorted)
+    //{
+    //    return new FastObservableCollection<T>(sorted);
+    //}
 
-    private static ObservableCollection<T> MoveItemsInline<T>(ObservableCollection<T> collection, T[] sorted,
-        CancellationToken token)
+    private static FastObservableCollection<T> MoveItemsInline<T>(FastObservableCollection<T> collection, T[] sorted,
+        CancellationToken token, SynchronizationContext sctx)
     {
-        for (int i = 0; i < sorted.Count(); i++)
+        SynchronizationContext.SetSynchronizationContext(sctx);
+        sctx.Post(state =>
         {
-            token.ThrowIfCancellationRequested();
-            collection.Move(collection.IndexOf(sorted[i]), i);
-        }
-
+            collection.Rearrange(sorted);
+            //for (int i = 0; i < sorted.Count(); i++)
+            //{
+            //    token.ThrowIfCancellationRequested();
+            //    //sctx.Post(state => { collection.Move(collection.IndexOf(sorted[i]), i); }, null);
+            //    collection.Move(collection.IndexOf(sorted[i]), i);
+            //}
+        }, null);
         return collection;
     }
 

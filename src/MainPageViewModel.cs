@@ -18,7 +18,7 @@ public class MainPageViewModel : INotifyPropertyChanged
     private CancellationTokenSource _sortCancellationToken = new();
     private Task _sortTask;
 
-    public ObservableCollection<BossTimeViewModel> Bosses { get; private set; } = new();
+    public FastObservableCollection<BossTimeViewModel> Bosses { get; private set; } = new();
     
     public ICommand RefreshBosses { get; } 
     public ICommand SetAlarm { get; }
@@ -60,7 +60,7 @@ public class MainPageViewModel : INotifyPropertyChanged
             bossTimes.Add(bossTimeViewModel);
             bossTimeViewModel.OnFavouriteChanged += OnFavouriteChanged;
         }
-        Bosses = new ObservableCollection<BossTimeViewModel>(bossTimes);
+        Bosses = new FastObservableCollection<BossTimeViewModel>(bossTimes);
         OnPropertyChanged(nameof(Bosses));
         StartUpdating();
     }
@@ -76,13 +76,22 @@ public class MainPageViewModel : INotifyPropertyChanged
         RunSort(Bosses.SortByFavourite);
     }
 
-    private void RunSort(Action<CancellationToken> sortAction)
+    private void RunSort(Action<CancellationToken, SynchronizationContext> sortAction)
     {
         _sortCancellationToken.Cancel();
-        _sortTask?.Wait();
+        try
+        {
+            _sortTask?.Wait();
+        }
+        catch (AggregateException _) 
+        { 
+            // Do nothing, exception is expected here
+        }
         _sortCancellationToken = new CancellationTokenSource();
         var token = _sortCancellationToken.Token;
-        _sortTask = Task.Run(() => sortAction(token), token);
+        var sctx = SynchronizationContext.Current;
+
+        _sortTask = Task.Run(() => sortAction(token, sctx), token);
     }
 
     ~MainPageViewModel() 
