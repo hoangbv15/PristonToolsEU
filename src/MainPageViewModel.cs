@@ -15,6 +15,8 @@ public class MainPageViewModel : INotifyPropertyChanged
     private readonly IServerTime _serverTime;
     private readonly IAlarm _alarm;
     private readonly PeriodicTimer _timer;
+    private CancellationTokenSource _sortCancellationToken = new();
+    private Task _sortTask;
 
     public ObservableCollection<BossTimeViewModel> Bosses { get; private set; } = new();
     
@@ -48,13 +50,6 @@ public class MainPageViewModel : INotifyPropertyChanged
 
     }
 
-    private void OnSortByTime()
-    {
-        Log.Debug("OnSortByTime clicked");
-        Bosses = Bosses.Sort();
-        OnPropertyChanged(nameof(Bosses));
-    }
-
     private async void InitialiseBossTimer()
     {
         await _bossTimer.Initialise();
@@ -69,11 +64,25 @@ public class MainPageViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(Bosses));
         StartUpdating();
     }
+    
+    private void OnSortByTime()
+    {
+        Log.Debug("OnSortByTime clicked");
+        RunSort(Bosses.Sort);
+    }
 
     private void OnFavouriteChanged()
     {
-        Bosses = Bosses.SortByFavourite();
-        OnPropertyChanged(nameof(Bosses));
+        RunSort(Bosses.SortByFavourite);
+    }
+
+    private void RunSort(Action<CancellationToken> sortAction)
+    {
+        _sortCancellationToken.Cancel();
+        _sortTask?.Wait();
+        _sortCancellationToken = new CancellationTokenSource();
+        var token = _sortCancellationToken.Token;
+        _sortTask = Task.Run(() => sortAction(token), token);
     }
 
     ~MainPageViewModel() 
