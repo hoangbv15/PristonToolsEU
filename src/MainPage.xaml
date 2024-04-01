@@ -28,6 +28,7 @@
                             <Grid RowDefinitions="Auto,Auto"
                                   ColumnDefinitions="50,200,100,Auto">
                                 <ImageButton Command="{Binding ToggleFavourite}"
+                                             Source="star_off.png"
                                              MaximumHeightRequest="24"
                                              MaximumWidthRequest="24">
                                     <ImageButton.Triggers>
