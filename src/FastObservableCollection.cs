@@ -22,8 +22,7 @@ namespace PristonToolsEU
         {
             for (int i = 0; i < sorted.Length; i++)
             {
-                var oldIndex = Items.IndexOf(sorted[i]);
-                (Items[oldIndex], Items[i]) = (Items[i], Items[oldIndex]);
+                Items[i] = sorted[i];
             }
 
             OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));

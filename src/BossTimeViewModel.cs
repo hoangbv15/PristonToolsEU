@@ -8,8 +8,6 @@ namespace PristonToolsEU;
 
 public class BossTimeViewModel: ObservableObject, IComparable
 {
-    private static int CurrentNumOfFavourites = 0;
-    
     private readonly IAlarm _alarm;
     public IBoss Boss { get; }
 
@@ -36,7 +34,7 @@ public class BossTimeViewModel: ObservableObject, IComparable
 
     public int Favourite { get; private set; }
 
-    public event Action OnFavouriteChanged;
+    public event Action<BossTimeViewModel> OnFavouriteChanged;
     public bool IsFavourite => Favourite > 0;
 
     public ICommand ToggleFavourite { get; }
@@ -45,16 +43,14 @@ public class BossTimeViewModel: ObservableObject, IComparable
     {
         if (!IsFavourite)
         {
-            CurrentNumOfFavourites++;
-            Favourite = CurrentNumOfFavourites;
+            Favourite = 1;
         }
         else
         {
-            CurrentNumOfFavourites--;
             Favourite = 0;
         }
 
-        OnFavouriteChanged();
+        OnFavouriteChanged(this);
         OnPropertyChanged(nameof(IsFavourite));
         Log.Debug("Favourite for {0} is set to {1}", Boss.Name, Favourite);
     }
@@ -78,10 +74,8 @@ public class BossTimeViewModel: ObservableObject, IComparable
         var b = o as BossTimeViewModel;
         if (b == null)
             return -1;
-        if (b.Favourite != Favourite)
-        {
-            return b.Favourite - Favourite;
-        }
-        return (int)(TimeTillBoss - b.TimeTillBoss).TotalSeconds;
+        // 21600 is number of seconds in 6 hours, the maximum wait for any boss
+        // This way favourite entries will always end up at the top of the list when sorted
+        return (b.Favourite - Favourite)*21600 + (int)(TimeTillBoss - b.TimeTillBoss).TotalSeconds;
     }
 }

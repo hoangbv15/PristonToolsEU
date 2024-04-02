@@ -11,6 +11,7 @@ namespace PristonToolsEU;
 
 public class MainPageViewModel : INotifyPropertyChanged
 {
+    private int NumOfFavourites = 0;
     private readonly IBossTimer _bossTimer;
     private readonly IServerTime _serverTime;
     private readonly IAlarm _alarm;
@@ -64,16 +65,25 @@ public class MainPageViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(Bosses));
         StartUpdating();
     }
+
+    private void OnFavouriteChanged(BossTimeViewModel viewModel)
+    {
+        if (viewModel.IsFavourite)
+        {
+            NumOfFavourites++;
+            Bosses.Move(Bosses.IndexOf(viewModel), 0);
+        }
+        else
+        {
+            NumOfFavourites--;
+            Bosses.Move(Bosses.IndexOf(viewModel), NumOfFavourites);
+        }
+    }
     
     private void OnSortByTime()
     {
         Log.Debug("OnSortByTime clicked");
         RunSort(Bosses.Sort);
-    }
-
-    private void OnFavouriteChanged()
-    {
-        RunSort(Bosses.SortByFavourite);
     }
 
     private void RunSort(Action<CancellationToken, SynchronizationContext> sortAction)

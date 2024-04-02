@@ -17,12 +17,6 @@ public static class ObservableCollectionExtensions
         MoveItemsInline(collection, sorted, token, sctx);
     }
 
-    //public static FastObservableCollection<T> MakeObservableCollectionCopy<T>(
-    //    FastObservableCollection<T> collection, T[] sorted)
-    //{
-    //    return new FastObservableCollection<T>(sorted);
-    //}
-
     private static FastObservableCollection<T> MoveItemsInline<T>(FastObservableCollection<T> collection, T[] sorted,
         CancellationToken token, SynchronizationContext sctx)
     {
@@ -30,63 +24,7 @@ public static class ObservableCollectionExtensions
         sctx.Post(state =>
         {
             collection.Rearrange(sorted);
-            //for (int i = 0; i < sorted.Count(); i++)
-            //{
-            //    token.ThrowIfCancellationRequested();
-            //    //sctx.Post(state => { collection.Move(collection.IndexOf(sorted[i]), i); }, null);
-            //    collection.Move(collection.IndexOf(sorted[i]), i);
-            //}
         }, null);
         return collection;
     }
-
-    public static void Sort1<T>(this ObservableCollection<T> array, CancellationToken token) where T: IComparable
-    {
-        QuickSort(array, 0, array.Count - 1,
-            (a, b) => a.CompareTo(b), token);
-    }
-    
-    
-    public static void SortByFavourite1(this ObservableCollection<BossTimeViewModel> array, CancellationToken token)
-    {
-        QuickSort<BossTimeViewModel>(array, 0, array.Count - 1,
-            (a, b) => b.Favourite - a.Favourite, token);
-    }
-
-    private static async Task QuickSort<T>(ObservableCollection<T> array, int leftIndex, int rightIndex,
-        Func<T, T, int> comparer, CancellationToken token)
-    {
-            var i = leftIndex;
-            var j = rightIndex;
-            var pivot = array[leftIndex];
-            while (i <= j)
-            {
-                token.ThrowIfCancellationRequested();
-                while (comparer(array[i], pivot) < 0)
-                {
-                    token.ThrowIfCancellationRequested();
-                    i++;
-                }
-        
-                while (comparer(array[j], pivot) > 0)
-                {
-                    token.ThrowIfCancellationRequested();
-                    j--;
-                }
-                if (i <= j)
-                {
-                    var temp = array[i];
-                    array[i] = array[j];
-                    array[j] = temp;
-                    i++;
-                    j--;
-                }
-            }
-    
-            if (leftIndex < j)
-                await QuickSort(array, leftIndex, j, comparer, token);
-            if (i < rightIndex)
-                await QuickSort(array, i, rightIndex, comparer, token);
-            // return array;
-    } 
 }
