@@ -1,3 +1,4 @@
+using System.Text;
 using PristonToolsEU.BossTiming;
 using PristonToolsEU.Logging;
 
@@ -46,16 +47,51 @@ public class Alarm: IAlarm
             }
         }
         
-        foreach (var item in toBeAnnounced)
-        {
-            await Announce(item.Item1, item.Item2);
-        }
+        await Announce(toBeAnnounced);
     }
 
-    private async Task Announce(IBoss boss, int minutes)
+    private async Task Announce(IList<Tuple<IBoss, int>> toBeAnnounced)
     {
-        Log.Info("{0} minutes until {1}!", minutes, boss.Name);
-        await TextToSpeech.Default.SpeakAsync($"{minutes} minutes until {boss.Name}!");
+        if (!toBeAnnounced.Any())
+        {
+            return;
+        }
+        var announceCategories = new Dictionary<int, IList<IBoss>>();
+        foreach (var tuple in toBeAnnounced)
+        {
+            var boss = tuple.Item1;
+            var minute = tuple.Item2;
+            if (!announceCategories.ContainsKey(minute))
+            {
+                announceCategories[minute] = new List<IBoss>();
+            }
+            announceCategories[minute].Add(boss);
+        }
+
+        foreach (var minute in announceCategories.Keys)
+        {
+            var sb = new StringBuilder();
+            sb.Append(minute);
+            sb.Append(" minutes until ");
+            for (var i = 0; i < announceCategories[minute].Count; i++)
+            {
+                var boss = announceCategories[minute][i];
+                sb.Append(boss.Name);
+                if (i == announceCategories[minute].Count - 2)
+                {
+                    sb.Append(" and ");
+                }
+                else if (i < announceCategories[minute].Count - 2)
+                {
+                    sb.Append(", ");
+                }
+            }
+
+            var announceSentence = sb.ToString();
+            Log.Info(announceSentence);
+            await TextToSpeech.Default.SpeakAsync(announceSentence);
+        }
+       
     }
 
     public void SetAlarm(IBoss boss, bool isSet)
