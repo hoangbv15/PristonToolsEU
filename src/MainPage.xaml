@@ -8,18 +8,27 @@
         <VerticalStackLayout
             Padding="30,30"
             Spacing="30">
-            <Button Text="Sort by time"
-                    Command="{Binding SortByTime}"/>
-            <!-- <Grid RowDefinitions="Auto" -->
-            <!--       ColumnDefinitions="0.5*,0.5*" -->
-            <!--       ColumnSpacing="30"> -->
-            <!--     <Button Grid.Column="0" -->
-            <!--             Text="Sort by time" -->
-            <!--             Command="{Binding SortByTime}"/> -->
-            <!--     <Button Grid.Column="1"  -->
-            <!--             Text="Set Audio Alarm"  -->
-            <!--             Command="{Binding SetAlarm}"/> -->
-            <!-- </Grid> -->
+            <!-- <Button Text="Sort by time" -->
+            <!--         Command="{Binding SortByTime}"/> -->
+            <Grid RowDefinitions="Auto"
+                  ColumnDefinitions="0.5*,0.5*"
+                  ColumnSpacing="30">
+                <Button Grid.Column="0"
+                        Text="Sort By Time"
+                        Command="{Binding SortByTime}"/>
+                <Button Grid.Column="1"
+                        Text="Activate All Alarms"
+                        Command="{Binding ToggleAllAlarm}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button"
+                                     Binding="{Binding IsAllAlarmOn}"
+                                     Value="True">
+                            <Setter Property="Text"
+                                    Value="Deactivate All Alarms"/>
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </Grid>
             <ListView ItemsSource="{Binding Bosses}"
                       IsPullToRefreshEnabled="true"
                       RefreshCommand="{Binding RefreshBosses}"
@@ -43,12 +52,6 @@
                                                      Value="True">
                                             <Setter Property="Source"
                                                     Value="star_on.png"/>
-                                        </DataTrigger>
-                                        <DataTrigger TargetType="ImageButton"
-                                                     Binding="{Binding IsFavourite}"
-                                                     Value="False">
-                                            <Setter Property="Source"
-                                                    Value="star_off.png"/>
                                         </DataTrigger>
                                     </ImageButton.Triggers>
                                 </ImageButton>

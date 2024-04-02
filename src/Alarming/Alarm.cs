@@ -79,7 +79,7 @@ public class Alarm: IAlarm
                 sb.Append(boss.Name);
                 if (i == announceCategories[minute].Count - 2)
                 {
-                    sb.Append(" and ");
+                    sb.Append(", and ");
                 }
                 else if (i < announceCategories[minute].Count - 2)
                 {

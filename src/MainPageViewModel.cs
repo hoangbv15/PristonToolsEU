@@ -18,13 +18,21 @@ public class MainPageViewModel : INotifyPropertyChanged
     private readonly PeriodicTimer _timer;
     private CancellationTokenSource _sortCancellationToken = new();
     private Task _sortTask;
+    private bool _isAllAlarmOn;
 
     public FastObservableCollection<BossTimeViewModel> Bosses { get; private set; } = new();
     
     public ICommand RefreshBosses { get; } 
-    public ICommand SetAlarm { get; }
+    public ICommand ToggleAllAlarm { get; }
     public ICommand SortByTime { get; }
     public bool IsRefreshingBosses { get; set; }
+
+    public bool IsAllAlarmOn
+    {
+        get => _isAllAlarmOn;
+        set => _isAllAlarmOn = value;
+    }
+
     private async Task ExecuteRefreshBosses()
     {
         await _serverTime.Sync();
@@ -39,16 +47,21 @@ public class MainPageViewModel : INotifyPropertyChanged
 
         RefreshBosses = new Command(async () => await ExecuteRefreshBosses());
         SortByTime = new Command(OnSortByTime);
-        SetAlarm = new Command(OnSetAlarm);
+        ToggleAllAlarm = new Command(OnToggleAllAlarm);
         _timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
         
         InitialiseBossTimer();
     }
 
-    private void OnSetAlarm()
+    private void OnToggleAllAlarm()
     {
-        Log.Debug("OnSetAlarm clicked");
-
+        Log.Debug("OnToggleAllAlarm clicked");
+        IsAllAlarmOn = !IsAllAlarmOn;
+        OnPropertyChanged(nameof(IsAllAlarmOn));
+        foreach (var boss in Bosses)
+        {
+            boss.AlarmEnabled = IsAllAlarmOn;
+        }
     }
 
     private async void InitialiseBossTimer()
