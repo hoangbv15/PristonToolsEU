@@ -53,6 +53,8 @@ jobs:
   build-windows:
     runs-on: windows-2022
     name: Windows Build
+    permissions: 
+      contents: write
     steps:
 
       - name: Checkout
@@ -123,6 +125,8 @@ jobs:
 
 # MAUI MacCatalyst Build
   build-mac:
+    permissions: 
+      contents: write
     runs-on: macos-12
     name: MacCatalyst Build
     steps:
