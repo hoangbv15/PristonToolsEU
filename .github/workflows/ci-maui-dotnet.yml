@@ -70,7 +70,7 @@ jobs:
       #   run: dotnet restore src/PristonToolsEU.csproj /p:PublishReadyToRun=true -r win-x64
 
       - name: Build MAUI Windows
-        run: dotnet publish -f net8.0-windows10.0.19041.0 -c Release -p:WindowsPackageType=None -p:RuntimeIdentifierOverride=win10-x64
+        run: dotnet publish src/PristonToolsEU.csproj -f net8.0-windows10.0.19041.0 -c Release -p:WindowsPackageType=None -p:RuntimeIdentifierOverride=win10-x64
         # run: dotnet publish src/PristonToolsEU.csproj -c Release -f net8.0-windows10.0.19041.0 --no-restore -r win-x64 /p:EnableWindowsTargeting=true
      
       - name: Create zip
