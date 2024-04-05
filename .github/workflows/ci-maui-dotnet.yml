@@ -72,17 +72,19 @@ jobs:
       - name: Build MAUI Windows
         run: dotnet publish src/PristonToolsEU.csproj -f net8.0-windows10.0.19041.0 -c Release -p:WindowsPackageType=None -p:RuntimeIdentifierOverride=win10-x64
         # run: dotnet publish src/PristonToolsEU.csproj -c Release -f net8.0-windows10.0.19041.0 --no-restore -r win-x64 /p:EnableWindowsTargeting=true
-     
+
       - name: Create zip
-        uses: montudor/action-zip@v1
+        uses: thedoctor0/zip-release@0.7.5
         with:
-          args: zip -qq -r PristonToolsEU.zip src/bin/Release/net8.0-windows10.0.19041.0/win10-x64/publish
+          type: 'zip'
+          filename: 'release-x64.zip'
+          path: src/bin/Release/net8.0-windows10.0.19041.0/win10-x64/publish
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
         with:
           name: mauibeach-windows-ci-build
-          path: PristonToolsEU.zip
+          path: release-x64.zip
 
 # MAUI iOS Build
   # build-ios:
