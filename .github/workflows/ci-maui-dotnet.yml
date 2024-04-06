@@ -44,7 +44,7 @@ jobs:
         run: dotnet publish src/PristonToolsEU.csproj -f net8.0-windows10.0.19041.0 -c Release -p:WindowsPackageType=None -p:RuntimeIdentifierOverride=win10-x64
 
       - name: Create zip
-        uses: thedoctor0/zip-release@0.7.5
+        uses: thedoctor0/zip-release@0.7.6
         with:
           type: 'zip'
           filename: 'Windows-x64.zip'
@@ -85,11 +85,16 @@ jobs:
         run: dotnet publish src/PristonToolsEU.csproj -f net8.0-maccatalyst -c Release -p:CreatePackage=false -p:RuntimeIdentifierOverride=macatalyst-x64
 
       - name: Create zip
-        uses: thedoctor0/zip-release@0.7.5
+        # uses: thedoctor0/zip-release@0.7.6
+        # with:
+        #   type: 'zip'
+        #   filename: 'MacOS-x64.zip'
+        #   path: src/bin/Release/net8.0-maccatalyst/*.app
+        uses: vimtor/action-zip@v1.2
         with:
-          type: 'zip'
-          filename: 'MacOS-x64.zip'
-          path: src/bin/Release/net8.0-maccatalyst/*.app
+          files: src/bin/Release/net8.0-maccatalyst/PristonToolsEU.app
+          recursive: true
+          dest: MacOS-x64.zip
 
       - name: Upload Release Assets
         if: startsWith(github.ref, 'refs/tags/')
