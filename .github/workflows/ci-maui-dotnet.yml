@@ -20,34 +20,6 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true       # Disable sending .NET CLI telemetry
 
 jobs:
-# MAUI Android Build
-  # build-android:
-  #   runs-on: windows-2022
-  #   name: Android Build
-  #   steps:
-
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-
-  #     - name: Setup .NET
-  #       uses: actions/setup-dotnet@v4
-  #       with:
-  #         dotnet-version: 6.0.x
-          
-  #     - name: Install MAUI Workload
-  #       run: dotnet workload install maui --ignore-failed-sources
-
-  #     - name: Restore Dependencies
-  #       run: dotnet restore src/PristonToolsEU.csproj
-
-  #     - name: Build MAUI Android
-  #       run: dotnet publish src/PristonToolsEU.csproj -c Release -f net8.0-android --no-restore
-
-  #     - name: Upload Android Artifact
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: mauibeach-android-ci-build
-  #         path: src/bin/Release/net8.0-android/*Signed.a*
 
 # MAUI Windows Build
   build-windows:
@@ -68,12 +40,8 @@ jobs:
       - name: Install MAUI Workload
         run: dotnet workload install maui --ignore-failed-sources
 
-      # - name: Restore Dependencies
-      #   run: dotnet restore src/PristonToolsEU.csproj /p:PublishReadyToRun=true -r win-x64
-
       - name: Build MAUI Windows
         run: dotnet publish src/PristonToolsEU.csproj -f net8.0-windows10.0.19041.0 -c Release -p:WindowsPackageType=None -p:RuntimeIdentifierOverride=win10-x64
-        # run: dotnet publish src/PristonToolsEU.csproj -c Release -f net8.0-windows10.0.19041.0 --no-restore -r win-x64 /p:EnableWindowsTargeting=true
 
       - name: Create zip
         uses: thedoctor0/zip-release@0.7.5
@@ -94,35 +62,6 @@ jobs:
           name: mauibeach-windows-ci-build
           path: Windows-x64.zip
 
-# MAUI iOS Build
-  # build-ios:
-  #   runs-on: macos-12
-  #   name: iOS Build
-  #   steps:
-
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-
-  #     - name: Setup .NET
-  #       uses: actions/setup-dotnet@v4
-  #       with:
-  #         dotnet-version: 6.0.x
-
-  #     - name: Install MAUI Workload
-  #       run: dotnet workload install maui --ignore-failed-sources
-
-  #     - name: Restore Dependencies
-  #       run: dotnet restore src/PristonToolsEU.csproj
-
-  #     - name: Build MAUI iOS
-  #       run: dotnet build src/PristonToolsEU.csproj -c Release -f net8.0-ios --no-restore /p:buildForSimulator=True /p:packageApp=True /p:ArchiveOnBuild=False
-
-  #     - name: Upload iOS Artifact
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: mauibeach-ios-ci-build
-  #         path: src/bin/Release/net8.0-ios/iossimulator-x64/**/*.app
-
 # MAUI MacCatalyst Build
   build-mac:
     permissions: 
@@ -142,18 +81,15 @@ jobs:
       - name: Install MAUI Workload
         run: dotnet workload install maui --ignore-failed-sources
 
-      - name: Restore Dependencies
-        run: dotnet restore src/PristonToolsEU.csproj -r maccatalyst-x64
-
       - name: Build MAUI MacCatalyst
-        run: dotnet publish src/PristonToolsEU.csproj -c Release -f net8.0-maccatalyst -r maccatalyst-x64 --no-restore -p:BuildIpa=True
+        run: dotnet publish src/PristonToolsEU.csproj -f net8.0-maccatalyst -c Release -p:CreatePackage=false -p:RuntimeIdentifierOverride=macatalyst-x64
 
       - name: Create zip
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: 'zip'
           filename: 'MacOS-x64.zip'
-          path: src/bin/Release/net8.0-maccatalyst/maccatalyst-x64/publish
+          path: src/bin/Release/net8.0-maccatalyst/*.app
 
       - name: Upload Release Assets
         if: startsWith(github.ref, 'refs/tags/')
