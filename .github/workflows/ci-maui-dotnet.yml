@@ -90,10 +90,11 @@ jobs:
         #   type: 'zip'
         #   filename: 'MacOS-x64.zip'
         #   path: src/bin/Release/net8.0-maccatalyst/*.app
-        uses: vimtor/action-zip@v1.2
-        with:
-          files: src/bin/Release/net8.0-maccatalyst/PristonToolsEU.app
-          dest: MacOS-x64.zip
+        # uses: vimtor/action-zip@v1.2
+        # with:
+        #   files: src/bin/Release/net8.0-maccatalyst/PristonToolsEU.app
+        #   dest: MacOS-x64.zip
+        run: ditto -c -k --sequesterRsrc --keepParent src/bin/Release/net8.0-maccatalyst/PristonToolsEU.app MacOS-x64.zip
 
       - name: Upload Release Assets
         if: startsWith(github.ref, 'refs/tags/')
