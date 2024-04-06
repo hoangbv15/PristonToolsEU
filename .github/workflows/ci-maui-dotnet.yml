@@ -93,7 +93,6 @@ jobs:
         uses: vimtor/action-zip@v1.2
         with:
           files: src/bin/Release/net8.0-maccatalyst/PristonToolsEU.app
-          recursive: true
           dest: MacOS-x64.zip
 
       - name: Upload Release Assets
