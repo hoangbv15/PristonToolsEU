@@ -82,28 +82,19 @@ jobs:
         run: dotnet workload install maui --ignore-failed-sources
 
       - name: Build MAUI MacCatalyst
-        run: dotnet publish src/PristonToolsEU.csproj -f net8.0-maccatalyst -c Release -p:CreatePackage=false -p:RuntimeIdentifierOverride=macatalyst-x64
+        run: dotnet publish src/PristonToolsEU.csproj -f net8.0-maccatalyst -c Release -p:CreatePackage=false
 
       - name: Create zip
-        # uses: thedoctor0/zip-release@0.7.6
-        # with:
-        #   type: 'zip'
-        #   filename: 'MacOS-x64.zip'
-        #   path: src/bin/Release/net8.0-maccatalyst/*.app
-        # uses: vimtor/action-zip@v1.2
-        # with:
-        #   files: src/bin/Release/net8.0-maccatalyst/PristonToolsEU.app
-        #   dest: MacOS-x64.zip
-        run: ditto -c -k --sequesterRsrc --keepParent src/bin/Release/net8.0-maccatalyst/PristonToolsEU.app MacOS-x64.zip
+        run: ditto -c -k --sequesterRsrc --keepParent src/bin/Release/net8.0-maccatalyst/PristonToolsEU.app macOS-universal.zip
 
       - name: Upload Release Assets
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: MacOS-x64.zip
+          files: macOS-universal.zip
 
       - name: Upload MacCatalyst Artifact
         uses: actions/upload-artifact@v4
         with:
           name: macos-ci-build
-          path: MacOS-x64.zip
+          path: macOS-universal.zip
