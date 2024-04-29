@@ -2,13 +2,20 @@ name: CI Build
 
 on:
   push:
-    branches: [ main ]
+    branches: 
+      - main
+      - 'release/**'
+      - 'feature/**'
+      - 'backport/**'
     paths-ignore:
       - '**/*.md'
       - '**/*.gitignore'
       - '**/*.gitattributes'
   pull_request:
     branches: [ main ]
+  release:
+    types:
+      - released
   workflow_dispatch:
 
 permissions:
