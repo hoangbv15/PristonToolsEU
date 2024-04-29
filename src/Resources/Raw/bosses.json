@@ -59,6 +59,11 @@
       "name": "Aragonian",
       "referenceHour": 0,
       "intervalHours": 6
+    },
+    {
+      "name": "Deius",
+      "referenceHour": 0,
+      "intervalHours": 2
     }
   ]
 }
