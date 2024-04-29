@@ -24,6 +24,7 @@ With these installed, open the project's root folder in VSCode, and go to the Ru
 This is useful if you want to build a release package locally. However github workflow CI has been setup for this project so there's not much need to do this. 
 If you still would like to know how, you will need:
 - The latest version of dotnet 8 from [here](https://dotnet.microsoft.com/en-us/download)
+
 Note that this will be automatically available on Windows if you installed Visual Studio with the MAUI development platform.
 
 For the commands to run, refer to the [github workflow file](.github/workflows/ci-maui-dotnet.yml).
