@@ -1,4 +1,4 @@
-# PristonToolsEU - A Boss Timer Priston Tale EU
+# PristonToolsEU - A Boss Timer for Priston Tale EU
 ## With audio alarm!
 
 This is a desktop application with the purpose of showing the time remaining until bosses spawn in the MMO game [Priston Tale EU](https://pristontale.eu/).
