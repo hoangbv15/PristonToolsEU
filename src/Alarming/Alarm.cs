@@ -76,7 +76,7 @@ public class Alarm: IAlarm
             for (var i = 0; i < announceCategories[minute].Count; i++)
             {
                 var boss = announceCategories[minute][i];
-                sb.Append(boss.Name);
+                sb.Append(GetTextToAnnounce(boss));
                 if (i == announceCategories[minute].Count - 2)
                 {
                     sb.Append(", and ");
@@ -91,7 +91,15 @@ public class Alarm: IAlarm
             Log.Info(announceSentence);
             await TextToSpeech.Default.SpeakAsync(announceSentence);
         }
-       
+    }
+
+    private string GetTextToAnnounce(IBoss boss)
+    {
+        if (boss.TextToSpeech != null)
+        {
+            return boss.TextToSpeech;
+        }
+        return boss.Name;
     }
 
     public void SetAlarm(IBoss boss, bool isSet)

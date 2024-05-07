@@ -9,8 +9,7 @@ namespace PristonToolsEU.ServerTiming;
 public class ServerTime : IServerTime, IDisposable
 {
     private const int SyncIntervalMs = 1800000; // 30 minutes
-    private const string PteuTimeUrl = $"https://pristontale.eu/api/api.php?key={ApiKey}";
-    private const string ApiKey = "c4b90e23c554d10c3c9deadcdbfcf93b";
+    private const string PteuTimeUrl = $"https://pristontale.eu/api/api.php?key=c4b90e23c554d10c3c9deadcdbfcf93b";
     
     private readonly IRestClient _restClient;
     private TimeSpan _serverTimeOffset = TimeSpan.Zero;
