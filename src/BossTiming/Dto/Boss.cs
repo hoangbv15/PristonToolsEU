@@ -16,12 +16,18 @@ public class Boss: IBoss
 {
     [JsonPropertyName("name")] 
     public string Name { get; set; }
+
+    [JsonPropertyName("textToSpeech")]
+    public string? TextToSpeech { get; set; }
     
-    [JsonPropertyName("referenceHour")]
-    public int ReferenceHour { get; set; }
+    [JsonPropertyName("firstHour")]
+    public int FirstHour { get; set; }
     
     [JsonPropertyName("intervalHours")]
     public int IntervalHours { get; set; }
+
+    [JsonPropertyName("minuteOverride")]
+    public int? MinuteOverride { get; set; }
 }
 
 public class BossArray

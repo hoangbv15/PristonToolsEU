@@ -35,4 +35,15 @@ public class Log
     {
         Instance.InternalLog(LogLevel.Info, msg, parameters); 
     }
+
+    public static void Warn(string msg, params object[] parameters)
+    {
+        Instance.InternalLog(LogLevel.Warn, msg, parameters); 
+    }
+
+    public static void Error(string msg, params object[] parameters)
+    {
+        Instance.InternalLog(LogLevel.Error, msg, parameters); 
+    }
+
 }

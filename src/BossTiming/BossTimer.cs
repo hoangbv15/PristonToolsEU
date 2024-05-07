@@ -28,14 +28,22 @@ public class BossTimer: IBossTimer
 
     public TimeSpan GetTimeTillBoss(IBoss boss)
     {
-        var nextBossHour = DateTime.Today.AddHours(boss.ReferenceHour).AddMinutes(_serverTime.BossTimeMinute);
-        
-        while (nextBossHour < _serverTime.Now && TimeSpan.FromHours(boss.IntervalHours) > TimeSpan.Zero)
+        var nextBossTime = DateTime.Today.AddHours(boss.FirstHour);
+
+        var minute = _serverTime.BossTimeMinute;
+        if (boss.MinuteOverride != null)
         {
-            nextBossHour = nextBossHour.AddHours(boss.IntervalHours);
+            minute = boss.MinuteOverride.Value;
         }
 
-        var result = nextBossHour - _serverTime.Now;
+        nextBossTime = nextBossTime.AddMinutes(minute);
+        
+        while (nextBossTime < _serverTime.Now && TimeSpan.FromHours(boss.IntervalHours) > TimeSpan.Zero)
+        {
+            nextBossTime = nextBossTime.AddHours(boss.IntervalHours);
+        }
+
+        var result = nextBossTime - _serverTime.Now;
         return result;
     }
 }
