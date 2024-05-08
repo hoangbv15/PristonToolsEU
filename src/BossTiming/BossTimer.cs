@@ -3,7 +3,7 @@ using PristonToolsEU.ServerTiming;
 
 namespace PristonToolsEU.BossTiming;
 
-public class BossTimer: IBossTimer
+public class BossTimer : IBossTimer
 {
     private readonly IServerTime _serverTime;
     private readonly IBossReader _bossReader;
@@ -37,7 +37,7 @@ public class BossTimer: IBossTimer
         }
 
         nextBossTime = nextBossTime.AddMinutes(minute);
-        
+
         while (nextBossTime < _serverTime.Now && TimeSpan.FromHours(boss.IntervalHours) > TimeSpan.Zero)
         {
             nextBossTime = nextBossTime.AddHours(boss.IntervalHours);

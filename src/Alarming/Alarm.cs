@@ -4,7 +4,7 @@ using PristonToolsEU.Logging;
 
 namespace PristonToolsEU.Alarming;
 
-public class Alarm: IAlarm
+public class Alarm : IAlarm
 {
     private readonly IBossTimer _bossTimer;
     private readonly int[] _milestones = { 1, 2, 3, 5, 10, 15, 30, 60 }; // in minutes
@@ -15,14 +15,14 @@ public class Alarm: IAlarm
     public Alarm(IBossTimer bossTimer)
     {
         _bossTimer = bossTimer;
-        
+
         // Prepare the alarms so we don't recalculate this every second
         // Convert minutes to seconds
         for (int i = 0; i < _milestones.Length; i++)
         {
             _milestones[i] *= 60;
         }
-        
+
         _timer = new Timer(o => Update(o), null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
     }
 
@@ -34,7 +34,7 @@ public class Alarm: IAlarm
     private async Task Update(object? state)
     {
         var toBeAnnounced = new List<Tuple<IBoss, int>>();
-        
+
         foreach (var boss in _alarms)
         {
             foreach (var milestone in _milestones)
@@ -46,7 +46,7 @@ public class Alarm: IAlarm
                 }
             }
         }
-        
+
         await Announce(toBeAnnounced);
     }
 
@@ -56,6 +56,7 @@ public class Alarm: IAlarm
         {
             return;
         }
+
         var announceCategories = new Dictionary<int, IList<IBoss>>();
         foreach (var tuple in toBeAnnounced)
         {
@@ -65,6 +66,7 @@ public class Alarm: IAlarm
             {
                 announceCategories[minute] = new List<IBoss>();
             }
+
             announceCategories[minute].Add(boss);
         }
 
@@ -99,6 +101,7 @@ public class Alarm: IAlarm
         {
             return boss.TextToSpeech;
         }
+
         return boss.Name;
     }
 
@@ -112,6 +115,7 @@ public class Alarm: IAlarm
         {
             _alarms.Remove(boss);
         }
+
         Log.Info("Alarm for {0} is set to {1}", boss.Name, isSet);
     }
 }

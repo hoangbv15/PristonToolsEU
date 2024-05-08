@@ -12,26 +12,20 @@ namespace PristonToolsEU.BossTiming.Dto;
 //     ]
 // }
 
-public class Boss: IBoss
+public class Boss : IBoss
 {
-    [JsonPropertyName("name")] 
-    public string Name { get; set; }
+    [JsonPropertyName("name")] public string Name { get; set; }
 
-    [JsonPropertyName("textToSpeech")]
-    public string? TextToSpeech { get; set; }
-    
-    [JsonPropertyName("firstHour")]
-    public int FirstHour { get; set; }
-    
-    [JsonPropertyName("intervalHours")]
-    public int IntervalHours { get; set; }
+    [JsonPropertyName("textToSpeech")] public string? TextToSpeech { get; set; }
 
-    [JsonPropertyName("minuteOverride")]
-    public int? MinuteOverride { get; set; }
+    [JsonPropertyName("firstHour")] public int FirstHour { get; set; }
+
+    [JsonPropertyName("intervalHours")] public int IntervalHours { get; set; }
+
+    [JsonPropertyName("minuteOverride")] public int? MinuteOverride { get; set; }
 }
 
 public class BossArray
 {
-    [JsonPropertyName("bosses")]
-    public List<Boss> Bosses { get; set; }
+    [JsonPropertyName("bosses")] public List<Boss> Bosses { get; set; }
 }

@@ -4,7 +4,7 @@ using PristonToolsEU.Logging;
 
 namespace PristonToolsEU.BossTiming;
 
-public class BossReader: IBossReader
+public class BossReader : IBossReader
 {
     public async Task<BossArray> Read()
     {
