@@ -26,18 +26,18 @@ public class Version: IComparable<Version>
     {
         var match = Regex.Match(versionString, "v([0-9]+)\\.([0-9]+)\\.([0-9]+)\\-([a-z]+)");
         
-        if (!match.Success && match.Groups.Count < 3)
+        if (!match.Success && match.Groups.Count < 4)
         {
             return;
         }
         
-        Major = int.Parse(match.Groups[0].Value);
-        Minor = int.Parse(match.Groups[1].Value);
-        Hotfix = int.Parse(match.Groups[2].Value);
+        Major = int.Parse(match.Groups[1].Value);
+        Minor = int.Parse(match.Groups[2].Value);
+        Hotfix = int.Parse(match.Groups[3].Value);
 
-        if (match.Groups.Count == 4)
+        if (match.Groups.Count == 5)
         {
-            var postfix = match.Groups[3].Value;
+            var postfix = match.Groups[4].Value;
             if (PostfixStringMatch.TryGetValue(postfix, out var value))
             {
                 Postfix = value;

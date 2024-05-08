@@ -21,9 +21,28 @@ public partial class MainPage : ContentPage
 		var updateCheckResult = await _updateChecker.Check();
 		if (!updateCheckResult.HasNewUpdate)
 			return;
-		DisplayAlert("Update available", 
-			$"There is an update available: {updateCheckResult.UpdateInfo?.Version}", 
-			"OK");
-	}
+		var userSelection = await DisplayAlert("Update available", 
+			$"There is an update available: {updateCheckResult.UpdateInfo?.Version} \n" +
+			$"Would you like to update?", 
+			"Yes", "No");
+		if (!userSelection || updateCheckResult.UpdateInfo == null)
+		{
+			return;
+		}
+
+        try
+        {
+            Uri uri = new Uri(updateCheckResult.UpdateInfo.Url);
+            await Browser.Default.OpenAsync(uri, BrowserLaunchMode.External);
+        }
+        catch (Exception ex)
+        {
+			// An unexpected error occurred. No browser may be installed on the device.
+			await DisplayAlert("Error",
+				"An error occured, no browser may be installed.\n" +
+				ex,
+				"Ok");
+        }
+    }
 }
 

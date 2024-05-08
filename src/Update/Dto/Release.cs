@@ -4,7 +4,7 @@ namespace PristonToolsEU.Update.Dto;
 
 public class Release: IRelease
 {
-    [JsonPropertyName("url")]
+    [JsonPropertyName("html_url")]
     public string Url { get; set; }
 
     [JsonPropertyName("name")]
