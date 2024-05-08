@@ -1,162 +1,162 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
-		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
+    <PropertyGroup>
+        <TargetFrameworks>net8.0;net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+        <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+        <!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 
-		<!-- Note for MacCatalyst:
-		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
-		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
-		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
-		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
-		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
+        <!-- Note for MacCatalyst:
+        The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
+        When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
+        The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
+        either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
+        <!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
-		<!-- <RuntimeIdentifiers Condition="$([MSBuild]::IsOSPlatform('windows'))">win-x64</RuntimeIdentifiers>
-		<RuntimeIdentifiers Condition="$([MSBuild]::IsOSPlatform('macatalyst'))">maccatalyst-x64</RuntimeIdentifiers> -->
+        <!-- <RuntimeIdentifiers Condition="$([MSBuild]::IsOSPlatform('windows'))">win-x64</RuntimeIdentifiers>
+        <RuntimeIdentifiers Condition="$([MSBuild]::IsOSPlatform('macatalyst'))">maccatalyst-x64</RuntimeIdentifiers> -->
 
-		<OutputType Condition="'$(TargetFramework)' != 'net8.0'">Exe</OutputType>
-		<RootNamespace>PristonToolsEU</RootNamespace>
-		<UseMaui>true</UseMaui>
-		<SingleProject>true</SingleProject>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
+        <OutputType Condition="'$(TargetFramework)' != 'net8.0'">Exe</OutputType>
+        <RootNamespace>PristonToolsEU</RootNamespace>
+        <UseMaui>true</UseMaui>
+        <SingleProject>true</SingleProject>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
 
-		<!-- Display name -->
-		<ApplicationTitle>PristonToolsEU</ApplicationTitle>
+        <!-- Display name -->
+        <ApplicationTitle>PristonToolsEU</ApplicationTitle>
 
-		<!-- App Identifier -->
-		<ApplicationId>com.companyname.pristontoolseu</ApplicationId>
+        <!-- App Identifier -->
+        <ApplicationId>com.companyname.pristontoolseu</ApplicationId>
 
-		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>1</ApplicationVersion>
+        <!-- Versions -->
+        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationVersion>1</ApplicationVersion>
 
-		<DefaultItemExcludes>$(DefaultItemExcludes);**\.DS_Store</DefaultItemExcludes>
+        <DefaultItemExcludes>$(DefaultItemExcludes);**\.DS_Store</DefaultItemExcludes>
 
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-		<Configurations>Debug;Release</Configurations>
-		<Platforms>AnyCPU;x64</Platforms>
-	</PropertyGroup>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+        <Configurations>Debug;Release</Configurations>
+        <Platforms>AnyCPU;x64</Platforms>
+    </PropertyGroup>
 
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
-	  <AndroidSupportedAbis>x86_64</AndroidSupportedAbis>
-	</PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+        <AndroidSupportedAbis>x86_64</AndroidSupportedAbis>
+    </PropertyGroup>
 
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
-	  <AndroidSupportedAbis>x86_64</AndroidSupportedAbis>
-	</PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+        <AndroidSupportedAbis>x86_64</AndroidSupportedAbis>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|x64'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|x64'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|x64'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|x64'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|x64'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|x64'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|x64'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|x64'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|x64'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|x64'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|x64'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|x64'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|x64'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|x64'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|x64'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|x64'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|x64'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|x64'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|x64'">
-	  <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|x64'">
+        <ApplicationId>com.onecommon.pristontoolseu</ApplicationId>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+    <ItemGroup>
+        <!-- App Icon -->
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>
 
-		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+        <!-- Splash Screen -->
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128"/>
 
-		<!-- Images -->
-		<MauiImage Include="Resources\Images\*" Exclude="$(DefaultItemExcludes)" />
-		<MauiImage Update="Resources\Images\star_on.svg" Resize="True" BaseSize="512,512" />
-		<MauiImage Update="Resources\Images\star_off.svg" Resize="True" BaseSize="512,512" />
+        <!-- Images -->
+        <MauiImage Include="Resources\Images\*" Exclude="$(DefaultItemExcludes)"/>
+        <MauiImage Update="Resources\Images\star_on.svg" Resize="True" BaseSize="512,512"/>
+        <MauiImage Update="Resources\Images\star_off.svg" Resize="True" BaseSize="512,512"/>
 
-		<!-- Custom Fonts -->
-		<MauiFont Include="Resources\Fonts\*" />
+        <!-- Custom Fonts -->
+        <MauiFont Include="Resources\Fonts\*"/>
 
-		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
-		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-	</ItemGroup>
+        <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2"/>
+        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0"/>
+    </ItemGroup>
 
 </Project>

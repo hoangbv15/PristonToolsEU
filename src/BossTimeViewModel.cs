@@ -6,12 +6,13 @@ using PristonToolsEU.Logging;
 
 namespace PristonToolsEU;
 
-public class BossTimeViewModel: ObservableObject, IComparable
+public class BossTimeViewModel : ObservableObject, IComparable
 {
     private readonly IAlarm _alarm;
     public IBoss Boss { get; }
 
     private TimeSpan _timeTillBoss;
+
     public TimeSpan TimeTillBoss
     {
         get => _timeTillBoss;
@@ -68,7 +69,7 @@ public class BossTimeViewModel: ObservableObject, IComparable
     {
         return new BossTimeViewModel(boss, timeTillBoss, alarm);
     }
-    
+
     public int CompareTo(object? o)
     {
         var b = o as BossTimeViewModel;
@@ -76,6 +77,6 @@ public class BossTimeViewModel: ObservableObject, IComparable
             return -1;
         // 21600 is number of seconds in 6 hours, the maximum wait for any boss
         // This way favourite entries will always end up at the top of the list when sorted
-        return (b.Favourite - Favourite)*21600 + (int)(TimeTillBoss - b.TimeTillBoss).TotalSeconds;
+        return (b.Favourite - Favourite) * 21600 + (int)(TimeTillBoss - b.TimeTillBoss).TotalSeconds;
     }
 }

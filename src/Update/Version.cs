@@ -9,28 +9,28 @@ public enum Postfix
     None = 2
 }
 
-public class Version: IComparable<Version>
+public class Version : IComparable<Version>
 {
     private static Dictionary<string, Postfix> PostfixStringMatch = new()
     {
-        {"alpha", Postfix.Alpha},
-        {"beta", Postfix.Beta}
+        { "alpha", Postfix.Alpha },
+        { "beta", Postfix.Beta }
     };
-    
+
     public int Major { get; }
     public int Minor { get; }
     public int Hotfix { get; }
     public Postfix Postfix { get; } = Postfix.None;
-    
+
     public Version(string versionString)
     {
         var match = Regex.Match(versionString, "v([0-9]+)\\.([0-9]+)\\.([0-9]+)\\-([a-z]+)");
-        
+
         if (!match.Success && match.Groups.Count < 4)
         {
             return;
         }
-        
+
         Major = int.Parse(match.Groups[1].Value);
         Minor = int.Parse(match.Groups[2].Value);
         Hotfix = int.Parse(match.Groups[3].Value);

@@ -11,12 +11,15 @@ using System.Threading.Tasks;
 
 namespace PristonToolsEU
 {
-    public class FastObservableCollection<T>: ObservableCollection<T> 
+    public class FastObservableCollection<T> : ObservableCollection<T>
     {
         public FastObservableCollection()
-        { }
-        public FastObservableCollection(List<T> list): base(list)
-        { }
+        {
+        }
+
+        public FastObservableCollection(List<T> list) : base(list)
+        {
+        }
 
         public void Rearrange(T[] sorted)
         {
@@ -28,6 +31,5 @@ namespace PristonToolsEU
             OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
-    
     }
 }

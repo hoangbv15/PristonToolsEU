@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:PristonToolsEU"
@@ -15,7 +16,7 @@
                   ColumnSpacing="30">
                 <Button Grid.Column="0"
                         Text="Sort By Time"
-                        Command="{Binding SortByTime}"/>
+                        Command="{Binding SortByTime}" />
                 <Button Grid.Column="1"
                         Text="Activate All Alarms"
                         Command="{Binding ToggleAllAlarm}">
@@ -24,7 +25,7 @@
                                      Binding="{Binding IsAllAlarmOn}"
                                      Value="True">
                             <Setter Property="Text"
-                                    Value="Deactivate All Alarms"/>
+                                    Value="Deactivate All Alarms" />
                         </DataTrigger>
                     </Button.Triggers>
                 </Button>
@@ -51,7 +52,7 @@
                                                      Binding="{Binding IsFavourite}"
                                                      Value="True">
                                             <Setter Property="Source"
-                                                    Value="star_on.png"/>
+                                                    Value="star_on.png" />
                                         </DataTrigger>
                                     </ImageButton.Triggers>
                                 </ImageButton>
@@ -62,18 +63,18 @@
                                        HorizontalTextAlignment="Start"
                                        HorizontalOptions="Fill"
                                        VerticalOptions="Center"
-                                       FontAttributes="Bold"/>
+                                       FontAttributes="Bold" />
                                 <Label Grid.Row="0" Grid.Column="2"
                                        Text="{Binding TimeTillBoss, StringFormat=\{0:h\\:mm\\:ss\}}"
                                        FontAttributes="Italic"
                                        VerticalOptions="Center"
-                                       HorizontalOptions="Start"/>
+                                       HorizontalOptions="Start" />
                                 <StackLayout Grid.Row="0" Grid.Column="3"
                                              VerticalOptions="Center"
                                              HorizontalOptions="Fill"
                                              Orientation="Horizontal">
                                     <CheckBox IsChecked="{Binding AlarmEnabled, Mode=TwoWay}"
-                                              VerticalOptions="Center"/>
+                                              VerticalOptions="Center" />
                                     <Label VerticalOptions="Center">
                                         <Label.Triggers>
                                             <DataTrigger TargetType="Label"
@@ -101,5 +102,5 @@
             </ListView>
         </VerticalStackLayout>
     </ScrollView>
-    
+
 </ContentPage>

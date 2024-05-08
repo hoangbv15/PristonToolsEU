@@ -10,11 +10,11 @@ public class ServerTime : IServerTime, IDisposable
 {
     private const int SyncIntervalMs = 1800000; // 30 minutes
     private const string PteuTimeUrl = $"https://pristontale.eu/api/api.php?key=c4b90e23c554d10c3c9deadcdbfcf93b";
-    
+
     private readonly IRestClient _restClient;
     private TimeSpan _serverTimeOffset = TimeSpan.Zero;
     private int _bossTimeMinute;
-    
+
     private readonly Timer _timer;
 
     public DateTime Now => DateTime.UtcNow + _serverTimeOffset;
@@ -43,9 +43,11 @@ public class ServerTime : IServerTime, IDisposable
         {
             throw new Exception("Server returned null Babel field");
         }
-        _serverTimeOffset = DateTime.UtcNow - DateTimeOffset.FromUnixTimeSeconds(serverTime.Babel.ServerGameUnixTime).DateTime;
-        _bossTimeMinute = serverTime.Babel.BossTimeSecond; 
-        Log.Debug("Got response from server \n offset: {0} \n bossTimeMinute: {1}", 
+
+        _serverTimeOffset = DateTime.UtcNow -
+                            DateTimeOffset.FromUnixTimeSeconds(serverTime.Babel.ServerGameUnixTime).DateTime;
+        _bossTimeMinute = serverTime.Babel.BossTimeSecond;
+        Log.Debug("Got response from server \n offset: {0} \n bossTimeMinute: {1}",
             _serverTimeOffset, _bossTimeMinute);
     }
 

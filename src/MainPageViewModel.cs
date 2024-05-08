@@ -21,8 +21,8 @@ public class MainPageViewModel : INotifyPropertyChanged
     private bool _isAllAlarmOn;
 
     public FastObservableCollection<BossTimeViewModel> Bosses { get; private set; } = new();
-    
-    public ICommand RefreshBosses { get; } 
+
+    public ICommand RefreshBosses { get; }
     public ICommand ToggleAllAlarm { get; }
     public ICommand SortByTime { get; }
     public bool IsRefreshingBosses { get; set; }
@@ -38,7 +38,7 @@ public class MainPageViewModel : INotifyPropertyChanged
         await _serverTime.Sync();
         IsRefreshingBosses = false;
     }
-    
+
     public MainPageViewModel(IBossTimer bossTimer, IServerTime serverTime, IAlarm alarm)
     {
         _bossTimer = bossTimer;
@@ -48,7 +48,7 @@ public class MainPageViewModel : INotifyPropertyChanged
         SortByTime = new Command(OnSortByTime);
         ToggleAllAlarm = new Command(OnToggleAllAlarm);
         _timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
-        
+
         InitialiseBossTimer();
     }
 
@@ -73,6 +73,7 @@ public class MainPageViewModel : INotifyPropertyChanged
             bossTimes.Add(bossTimeViewModel);
             bossTimeViewModel.OnFavouriteChanged += OnFavouriteChanged;
         }
+
         Bosses = new FastObservableCollection<BossTimeViewModel>(bossTimes);
         OnPropertyChanged(nameof(Bosses));
         StartUpdating();
@@ -91,7 +92,7 @@ public class MainPageViewModel : INotifyPropertyChanged
             Bosses.Move(Bosses.IndexOf(viewModel), NumOfFavourites);
         }
     }
-    
+
     private void OnSortByTime()
     {
         Log.Debug("OnSortByTime clicked");
@@ -105,10 +106,11 @@ public class MainPageViewModel : INotifyPropertyChanged
         {
             _sortTask?.Wait();
         }
-        catch (AggregateException _) 
-        { 
+        catch (AggregateException _)
+        {
             // Do nothing, exception is expected here
         }
+
         _sortCancellationToken = new CancellationTokenSource();
         var token = _sortCancellationToken.Token;
         var sctx = SynchronizationContext.Current;
@@ -116,7 +118,7 @@ public class MainPageViewModel : INotifyPropertyChanged
         _sortTask = Task.Run(() => sortAction(token, sctx), token);
     }
 
-    ~MainPageViewModel() 
+    ~MainPageViewModel()
     {
         _timer.Dispose();
     }

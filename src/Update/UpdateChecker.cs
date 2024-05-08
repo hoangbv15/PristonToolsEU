@@ -3,11 +3,11 @@ using PristonToolsEU.Update.Dto;
 
 namespace PristonToolsEU.Update;
 
-public class UpdateChecker: IUpdateChecker
+public class UpdateChecker : IUpdateChecker
 {
     private const int UpdateDelayMs = 120000;
     private const string GetLatestReleaseUrl = "https://api.github.com/repos/hoangbv15/PristonToolsEU/releases/latest";
-    
+
     private IRestClient _restClient;
     private Version _currentVersion;
 
@@ -28,7 +28,7 @@ public class UpdateChecker: IUpdateChecker
         {
             throw new UpdateCheckException("Version check return an empty version");
         }
-        
+
         var latestVersion = new Version(latestRelease.Version);
 
         if (latestVersion.CompareTo(_currentVersion) > 0)
