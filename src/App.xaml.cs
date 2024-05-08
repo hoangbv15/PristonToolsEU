@@ -1,4 +1,5 @@
-﻿
+﻿using PristonToolsEU.Update;
+
 namespace PristonToolsEU;
 
 public partial class App : Application
@@ -11,7 +12,8 @@ public partial class App : Application
 		InitializeComponent();
 
 		MainPage = new AppShell();
-	}
+		MainPage.Title += " " + CurrentVersion.Version;
+    }
 
     protected override Window CreateWindow(IActivationState? activationState)
     {

@@ -5,6 +5,7 @@ namespace PristonToolsEU.Update;
 
 public class UpdateChecker: IUpdateChecker
 {
+    private const int UpdateDelayMs = 120000;
     private const string GetLatestReleaseUrl = "https://api.github.com/repos/hoangbv15/PristonToolsEU/releases/latest";
     
     private IRestClient _restClient;
@@ -18,6 +19,10 @@ public class UpdateChecker: IUpdateChecker
 
     public async Task<UpdateCheckResult> Check()
     {
+        // Github anonymous apis have a rate limit of 60 requests per hour
+        // Add a delay so that we reduce spamming of github api
+        await Task.Delay(UpdateDelayMs);
+
         var latestRelease = await _restClient.Get<Release>(GetLatestReleaseUrl);
         if (string.IsNullOrWhiteSpace(latestRelease.Version))
         {

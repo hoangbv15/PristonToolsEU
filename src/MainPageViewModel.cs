@@ -6,7 +6,6 @@ using PristonToolsEU.Alarming;
 using PristonToolsEU.BossTiming;
 using PristonToolsEU.Logging;
 using PristonToolsEU.ServerTiming;
-using PristonToolsEU.Update;
 
 namespace PristonToolsEU;
 
@@ -45,7 +44,6 @@ public class MainPageViewModel : INotifyPropertyChanged
         _bossTimer = bossTimer;
         _serverTime = serverTime;
         _alarm = alarm;
-
         RefreshBosses = new Command(async () => await ExecuteRefreshBosses());
         SortByTime = new Command(OnSortByTime);
         ToggleAllAlarm = new Command(OnToggleAllAlarm);
