@@ -6,6 +6,7 @@ using PristonToolsEU.Alarming;
 using PristonToolsEU.BossTiming;
 using PristonToolsEU.Logging;
 using PristonToolsEU.ServerTiming;
+using PristonToolsEU.Update;
 
 namespace PristonToolsEU;
 

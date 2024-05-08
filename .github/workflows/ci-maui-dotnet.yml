@@ -39,6 +39,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Assign version in code
+        uses: thiagodnf/string-replacer@v1.0.2
+        with:
+          find: "<version_text>"
+          replace: "${{ github.ref_name }}"
+          include: |
+            src/**/CurrentVersion.cs
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -79,6 +87,14 @@ jobs:
     
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Assign version in code
+        uses: thiagodnf/string-replacer@v1.0.2
+        with:
+          find: "<version_text>"
+          replace: "${{ github.ref_name }}"
+          include: |
+            src/**/CurrentVersion.cs
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4

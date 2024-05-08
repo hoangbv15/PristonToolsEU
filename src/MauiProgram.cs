@@ -4,6 +4,7 @@ using PristonToolsEU.BossTiming;
 using PristonToolsEU.Logging;
 using PristonToolsEU.ServerTiming;
 using PristonToolsEU.Networking;
+using PristonToolsEU.Update;
 using LogLevel = PristonToolsEU.Logging.LogLevel;
 
 namespace PristonToolsEU;
@@ -25,6 +26,7 @@ public static class MauiProgram
 		Log.Instance.LogLevel = LogLevel.Debug;
 		
 		builder.Services.AddSingleton<IRestClient, RestClient>();
+		builder.Services.AddSingleton<IUpdateChecker, UpdateChecker>();
 		builder.Services.AddSingleton<IServerTime, ServerTime>();
 		builder.Services.AddSingleton<IBossReader, BossReader>();
 		builder.Services.AddSingleton<IBossTimer, BossTimer>();
